@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CourseReg Engine - Smart Course Registration & Academic Planning System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="brand-text">
+                <h1 class="brand-title">CourseReg Engine</h1>
+                <p class="brand-tagline">Smart Course Registration & Academic Planning System</p>
+                <p class="brand-desc">Manage courses, validate prerequisites, detect timetable conflicts, and monitor academic risk.</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="semester-pill">
+                <span class="dot"></span>
+                <span>Active Term: <strong>Spring 2026</strong></span>
+            </div>
+            <nav class="nav-tabs hidden" id="main-nav-tabs">
+                <button class="nav-tab active" data-tab="student-tab" id="nav-tab-student">Student Portal</button>
+                <button class="nav-tab" data-tab="registrar-tab" id="nav-tab-registrar">Registrar & Advisor</button>
+                <button class="nav-tab" data-tab="dag-tab" id="nav-tab-dag">Prerequisite DAG</button>
+                <button class="nav-tab" data-tab="admin-tab" id="nav-tab-admin">Admin Dashboard</button>
+            </nav>
+            <div id="user-session-bar" class="user-session-bar hidden">
+                <div class="user-chip">
+                    <span class="user-avatar" id="header-user-avatar">👤</span>
+                    <div class="user-meta">
+                        <span class="user-display-name" id="header-user-name">Guest</span>
+                        <span class="user-role-badge" id="header-user-role">STUDENT</span>
+                    </div>
+                </div>
+                <button id="btn-logout" class="btn btn-logout-danger" title="Sign Out">Sign Out</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================================================================= -->
+    <!-- AUTHENTICATION VIEW: PROFESSIONAL LOGIN PAGE -->
+    <!-- ================================================================= -->
+    <div id="login-view" class="login-view-wrapper">
+        <div class="login-card">
+            <div class="login-brand">
+                <h1 class="login-title">CourseReg Engine</h1>
+                <p class="login-subtitle">Smart Course Registration & Academic Planning System</p>
+                <p class="login-caption">Sign in to access your course registration, schedule, or institutional dashboard.</p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="role-selector-pills">
+                <button type="button" class="role-pill active" data-role="STUDENT" id="role-btn-student">
+                    <span class="role-pill-icon"></span> Student
+                </button>
+                <button type="button" class="role-pill" data-role="REGISTRAR / ADVISOR" id="role-btn-registrar">
+                    <span class="role-pill-icon"></span> Registrar / Advisor
+                </button>
+                <button type="button" class="role-pill" data-role="ADMIN" id="role-btn-admin">
+                    <span class="role-pill-icon"></span> Admin
+                </button>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="login-error-banner" class="login-error-banner hidden"></div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="login-form">
+                <input type="hidden" id="login-selected-role" value="STUDENT">
+
+                <div class="form-group">
+                    <label for="login-username" class="form-label" id="login-username-label">Roll Number</label>
+                    <div class="input-with-icon">
+                        <span class="input-icon" id="login-input-icon">🆔</span>
+                        <input type="text" id="login-username" class="form-input" placeholder="e.g. CS2023001 or student01" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password" class="form-label">Password</label>
+                    <div class="input-with-icon password-input-wrap">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+                        <button type="button" id="btn-toggle-password" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
+                    </div>
+                </div>
+
+                <div class="login-form-options">
+                    <label class="remember-me-label">
+                        <input type="checkbox" id="login-remember-me" checked>
+                        <span>Remember Me</span>
+                    </label>
+                    <button type="button" id="btn-forgot-password" class="btn-link">Forgot Password?</button>
+                </div>
+
+                <button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-lg">
+                    <span id="login-btn-text">Sign In</span>
+                    <span id="login-btn-spinner" class="spinner hidden"></span>
+                </button>
+
+                <!-- Official Student Provisioning Notice -->
+                <div class="login-provision-notice">
+                    <span class="notice-badge">ℹ️ Student Account Policy</span>
+                    <p>Student accounts are provisioned exclusively by college administration or academic staff. Please sign in using the Roll Number and password provided to you.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <main class="app-container hidden" id="main-app-container">
+        <!-- Toast Alerts Container -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Viva Demo Evaluation Scenarios Toolbar -->
+        <div class="viva-scenarios-banner">
+            <div class="viva-banner-header">
+                <div class="viva-title">
+                    <span class="viva-badge">VIVA EVALUATION</span>
+                    <strong>1-Click Interactive Demonstration Scenarios:</strong>
+                </div>
+                <span class="viva-subtitle">Click any scenario to auto-configure student data and verify algorithm defenses live:</span>
+            </div>
+            <div class="scenarios-button-grid" id="scenarios-button-grid">
+                <!-- Dynamically populated from /api/scenarios -->
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 1: STUDENT REGISTRATION PORTAL -->
+        <!-- ================================================================= -->
+        <section id="student-tab" class="tab-content active">
+            <!-- Student Welcome Banner -->
+            <div class="student-welcome-banner" id="student-welcome-banner">
+                <div class="student-welcome-info">
+                    <span class="welcome-tag">CourseReg Engine • Student Portal</span>
+                    <h2 class="welcome-heading">Welcome, <span id="student-portal-welcome-name">Student</span></h2>
+                    <div class="welcome-badges">
+                        <span class="welcome-pill">Roll Number: <strong id="student-portal-welcome-roll">--</strong></span>
+                        <span class="welcome-pill">Current Term: <strong>Spring 2026</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Selector & Profile Bar -->
+            <div class="profile-card">
+                <div class="student-select-box">
+                    <label for="student-selector">Select Active Student:</label>
+                    <select id="student-selector" class="form-select">
+                        <!-- Populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="student-meta-details" id="student-meta-card">
+                    <!-- Populated dynamically -->
+                </div>
+                <button id="btn-edit-student" class="btn btn-secondary" style="white-space: nowrap;">
+                    <span></span> Edit Record
+                </button>
+            </div>
+
+            <!-- Student Active Schedule & Enrolled Courses -->
+            <div class="grid-two-columns">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2> My Current Registered Courses (Spring 2026)</h2>
+                        <span class="badge badge-info" id="enrolled-count-badge">0 Enrolled</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="current-enrollments-list" class="enrollments-list">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h2> Transcript History (Completed Prerequisites)</h2>
+                        <span class="badge badge-success" id="completed-count-badge">0 Completed</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="completed-courses-list" class="transcript-list">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Catalog with Dynamic Prerequisite & Clash Check -->
+            <div class="panel catalog-panel">
+                <div class="panel-header catalog-header">
+                    <div>
+                        <h2>Course Catalog & Real-Time Registration</h2>
+                        <p class="section-desc">Prerequisites validated via DAG Topological traversal. Clashes detected via Augmented Interval Tree.</p>
+                    </div>
+                    <div class="catalog-filters">
+                        <input type="text" id="course-search" class="form-input" placeholder="Search by course code, title, or dept...">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="course-catalog-grid" class="course-cards-grid">
+                        <!-- Populated dynamically with live status tags -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- TAB 2: REGISTRAR & ACADEMIC ADVISOR DASHBOARD -->
+        <!-- ================================================================= -->
+        <section id="registrar-tab" class="tab-content">
+            <!-- Summary KPI Cards (Clickable Risk Filters) -->
+            <div class="kpi-grid">
+                <div class="kpi-card kpi-filter-card" id="kpi-filter-all" data-risk="ALL" title="Click to view All Students">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Total Students</span>
+                        <span class="kpi-value" id="kpi-total-students">16</span>
+                        <span class="kpi-filter-hint">Show All</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-high-risk kpi-filter-card" id="kpi-filter-high" data-risk="HIGH" title="Click to filter High Risk students">
+                    <div class="kpi-icon">🚨</div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">High Risk</span>
+                        <span class="kpi-value" id="kpi-high-risk">0</span>
+                        <span class="kpi-filter-hint">Filter High</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-med-risk kpi-filter-card" id="kpi-filter-medium" data-risk="MEDIUM" title="Click to filter Medium Risk students">
+                    <div class="kpi-icon">⚠️</div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Medium Risk</span>
+                        <span class="kpi-value" id="kpi-med-risk">0</span>
+                        <span class="kpi-filter-hint">Filter Medium</span>
+                    </div>
+                </div>
+                <div class="kpi-card kpi-low-risk kpi-filter-card" id="kpi-filter-low" data-risk="LOW" title="Click to filter Low Risk (Good Standing) students">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Good Standing</span>
+                        <span class="kpi-value" id="kpi-low-risk">0</span>
+                        <span class="kpi-filter-hint">Filter Low</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Account Details Lookup Panel -->
+            <div class="panel" id="panel-student-lookup">
+                <div class="panel-header">
+                    <div>
+                        <h2>Student Account Details Lookup</h2>
+                        <p class="section-desc">Search for any registered student by Roll Number or Student Name to inspect account status, contact information, and risk profile.</p>
+                    </div>
+                    <span class="badge badge-info">Advisor Verification</span>
+                </div>
+                <div class="panel-body">
+                    <form id="form-student-lookup" style="display: flex; gap: 0.75rem; max-width: 650px; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <input type="text" id="registrar-search-student-input" class="form-input" style="flex: 1; min-width: 260px;" placeholder="Enter Roll Number (e.g. CS2023001) or Student Name..." required>
+                        <button type="submit" id="btn-registrar-search-student" class="btn btn-primary">
+                            <span> Search Student</span>
+                        </button>
+                        <button type="button" id="btn-registrar-clear-student" class="btn btn-secondary" style="display: none;">
+                            <span>✕ Clear</span>
+                        </button>
+                    </form>
+
+                    <!-- Search Result Container -->
+                    <div id="registrar-student-lookup-result" class="hidden">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Advisor Alert Table -->
+            <div class="panel">
+                <div class="panel-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                        <h2> Academic Advisor Alerts: Monitored Students</h2>
+                        <span class="section-desc" id="advisor-filter-status">Showing: <strong>All Monitored Students</strong></span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">FILTER BY RISK:</span>
+                        <div class="risk-filter-group" id="advisor-risk-filter-group">
+                            <button type="button" class="btn btn-sm btn-filter-risk active" data-risk="ALL">All</button>
+                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-high" data-risk="HIGH">🚨 High Risk</button>
+                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-medium" data-risk="MEDIUM">⚠️ Medium Risk</button>
+                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-low" data-risk="LOW">✅ Low Risk</button>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-advisor-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Roll Number</th>
+                                    <th>Student Name</th>
+                                    <th>GPA</th>
+                                    <th>Attendance</th>
+                                    <th>Risk Score</th>
+                                    <th>Risk Flag</th>
+                                    <th>Recommended Advisor Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="advisor-alerts-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Master Enrollment Registry -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Master Enrollment Registry</h2>
+                    <span class="badge badge-info" id="total-enrollments-badge">Active Records</span>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Enrollment ID</th>
+                                    <th>Student</th>
+                                    <th>Course Code</th>
+                                    <th>Course Name</th>
+                                    <th>Semester</th>
+                                    <th>Status</th>
+                                    <th>Grade</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="master-enrollments-tbody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Registrar Curriculum & Timetable Management Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2> Registrar Curriculum & Schedule Operations</h2>
+                        <p class="section-desc">Create courses, define prerequisite edges with cycle prevention, and schedule timetable slots.</p>
+                    </div>
+                    <span class="badge badge-info">Admin Controls</span>
+                </div>
+                <div class="panel-body">
+                    <div class="admin-grid">
+                        <!-- Add Course Card -->
+                        <div class="admin-card">
+                            <h3> Add New Course</h3>
+                            <form id="form-add-course" class="admin-form">
+                                <div class="form-group">
+                                    <label>Course Code:</label>
+                                    <input type="text" id="admin-course-code" class="form-input" placeholder="e.g. CS405" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Course Name:</label>
+                                    <input type="text" id="admin-course-name" class="form-input" placeholder="e.g. Cloud Computing" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Credits (1-6):</label>
+                                        <input type="number" id="admin-course-credits" class="form-input" value="3" min="1" max="6" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Department:</label>
+                                        <input type="text" id="admin-course-dept" class="form-input" value="Computer Science" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-course">Create Course</button>
+                            </form>
+                        </div>
+
+                        <!-- Add Prerequisite Link Card -->
+                        <div class="admin-card">
+                            <h3>Link Prerequisite (Cycle Protected)</h3>
+                            <form id="form-add-prereq" class="admin-form">
+                                <div class="form-group">
+                                    <label>Target Course (Dependent):</label>
+                                    <select id="admin-prereq-target" class="form-select" required></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Prerequisite Course (Requirement):</label>
+                                    <select id="admin-prereq-source" class="form-select" required></select>
+                                </div>
+                                <p class="form-help">ADSA DAG 3-Color DFS detects cycles immediately. If cycle is created, transaction is rejected.</p>
+                                <button type="submit" class="btn btn-warning btn-sm" id="btn-submit-prereq">Add Dependency Edge</button>
+                            </form>
+                        </div>
+
+                        <!-- Add Timetable Slot Card -->
+                        <div class="admin-card">
+                            <h3> Schedule Timetable Slot</h3>
+                            <form id="form-add-slot" class="admin-form">
+                                <div class="form-group">
+                                    <label>Course:</label>
+                                    <select id="admin-slot-course" class="form-select" required></select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Day:</label>
+                                        <select id="admin-slot-day" class="form-select">
+                                            <option value="MON">Monday</option>
+                                            <option value="TUE">Tuesday</option>
+                                            <option value="WED">Wednesday</option>
+                                            <option value="THU">Thursday</option>
+                                            <option value="FRI">Friday</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Room:</label>
+                                        <input type="text" id="admin-slot-room" class="form-input" value="Lab-4" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start (HH:MM):</label>
+                                        <input type="text" id="admin-slot-start" class="form-input" value="11:00" placeholder="11:00" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End (HH:MM):</label>
+                                        <input type="text" id="admin-slot-end" class="form-input" value="12:30" placeholder="12:30" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Faculty Instructor:</label>
+                                    <select id="admin-slot-faculty" class="form-select" required></select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-slot">Assign Schedule Slot</button>
+                            </form>
+                        </div>
+
+                        <!-- Add Student Card -->
+                        <div class="admin-card">
+                            <h3> Add New Student</h3>
+                            <form id="form-add-student" class="admin-form">
+                                <div class="form-group">
+                                    <label>Student Full Name:</label>
+                                    <input type="text" id="admin-student-name" class="form-input" placeholder="e.g. Ananya Sen" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Email Address:</label>
+                                        <input type="email" id="admin-student-email" class="form-input" placeholder="ananya@univ.edu">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Roll Number (Optional):</label>
+                                        <input type="text" id="admin-student-roll" class="form-input" placeholder="Auto (CS2023xxx)">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" style="grid-column: 1 / -1;">
+                                        <label>Student Initial Login Password:</label>
+                                        <input type="text" id="admin-student-password" class="form-input" placeholder="e.g. StudentPass123 (Default: Student@2026)">
+                                        <span class="form-hint" style="font-size: 0.78rem; color: var(--text-muted);">Staff / Admin can give this password and the Roll Number to the student for logging in.</span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>GPA (0.00 - 4.00):</label>
+                                        <input type="number" step="0.01" id="admin-student-gpa" class="form-input" value="3.50" min="0.0" max="4.0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Attendance %:</label>
+                                        <input type="number" step="0.1" id="admin-student-att" class="form-input" value="90.0" min="0.0" max="100.0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fails Count:</label>
+                                        <input type="number" id="admin-student-fails" class="form-input" value="0" min="0" max="10" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-student">Register Student & Provision Login</button>
+                                <div id="admin-student-created-alert" class="hidden" style="margin-top: 0.85rem; padding: 0.85rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px;"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- TAB 3: PREREQUISITE DAG VISUALIZER -->
+        <!-- ================================================================= -->
+        <section id="dag-tab" class="tab-content">
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2> Prerequisite Topological DAG Hierarchy</h2>
+                        <p class="section-desc">Course prerequisite dependency graph \(G = (V, E)\). Edges represent \(C_{prereq} \to C_{dependent}\).</p>
+                    </div>
+                    <div class="dag-legend">
+                        <span class="legend-item"><span class="legend-circle" style="background:#10b981;"></span> Completed</span>
+                        <span class="legend-item"><span class="legend-circle" style="background:#3b82f6;"></span> Enrolled</span>
+                        <span class="legend-item"><span class="legend-circle" style="background:#06b6d4;"></span> Eligible</span>
+                        <span class="legend-item"><span class="legend-circle" style="background:#f59e0b;"></span> Prereq Required</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="dag-cycle-alert" class="dag-cycle-alert"></div>
+                    <div class="dag-topo-banner">
+                        <span class="topo-badge">Topological Study Sequence (Kahn's Algorithm):</span>
+                        <div id="dag-topo-order" class="topo-order-pills"></div>
+                    </div>
+                    <div id="dag-container" class="dag-visual-container">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access Denied Card -->
+        <div id="access-denied-view" class="access-denied-card hidden">
+            <div class="access-denied-icon"></div>
+            <h2 class="access-denied-title">Access Denied</h2>
+            <p class="access-denied-msg">You do not have permission to access this page.</p>
+            <p class="access-denied-detail" id="access-denied-detail"></p>
+            <button id="btn-return-dashboard" class="btn btn-primary" onclick="returnToDashboard()">Return to My Dashboard</button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- TAB 4: DEDICATED ADMIN DASHBOARD -->
+        <!-- ================================================================= -->
+        <section id="admin-tab" class="tab-content">
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2> Administrator Operations & System Governance</h2>
+                        <p class="section-desc">Manage system users, student records, courses, prerequisite constraints, timetable slots, and institutional audit reports.</p>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- Admin Overview KPIs -->
+                    <div class="admin-kpi-grid">
+                        <div class="kpi-card kpi-filter-card" id="admin-kpi-filter-students" data-risk="ALL" title="Click to view all students in Student Records">
+                            <span class="kpi-label">Total Students</span>
+                            <span class="kpi-value" id="admin-kpi-students">-</span>
+                            <span class="kpi-sub">Enrolled active pool</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">Catalog Courses</span>
+                            <span class="kpi-value" id="admin-kpi-courses">-</span>
+                            <span class="kpi-sub">Offering curricula</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">Active Registrations</span>
+                            <span class="kpi-value" id="admin-kpi-registrations">-</span>
+                            <span class="kpi-sub">Spring 2026 commits</span>
+                        </div>
+                        <div class="kpi-card kpi-high-risk kpi-filter-card" id="admin-kpi-filter-high" data-risk="HIGH" title="Click to filter High Risk students in Student Records">
+                            <span class="kpi-label">High Risk Alerts</span>
+                            <span class="kpi-value risk-high" id="admin-kpi-high-risk">-</span>
+                            <span class="kpi-sub">Click to inspect cohort</span>
+                        </div>
+                        <div class="kpi-card">
+                            <span class="kpi-label">System User Accounts</span>
+                            <span class="kpi-value" id="admin-kpi-users">-</span>
+                            <span class="kpi-sub">Active login credentials</span>
+                        </div>
+                    </div>
+
+                    <!-- Admin Navigation Sub-Tabs -->
+                    <div class="admin-subtabs">
+                        <button type="button" class="admin-subtab active" data-subtab="admin-subtab-users">👥 User Management</button>
+                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-students">👤 Student Records</button>
+                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-courses">📚 Course Catalog & Prerequisites</button>
+                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-timetable">⏰ Timetable Management</button>
+                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-reports">📊 Institutional Reports</button>
+                    </div>
+
+                    <!-- Subtab 1: User Management -->
+                    <div id="admin-subtab-users" class="admin-subtab-content active">
+                        <div class="admin-section-header">
+                            <h3>User Accounts & Authentication Credentials</h3>
+                            <button id="btn-show-add-user" class="btn btn-primary btn-sm" onclick="toggleAddUserBox()">+ Add New User</button>
+                        </div>
+
+                        <!-- Add User Form (Collapsible) -->
+                        <div id="admin-add-user-box" class="admin-form-box hidden">
+                            <h4>Create New User Account</h4>
+                            <form id="admin-add-user-form" class="admin-form-grid" onsubmit="handleAdminAddUser(event)">
+                                <div>
+                                    <label class="form-label">Username:</label>
+                                    <input type="text" id="admin-new-username" class="form-input" placeholder="e.g. faculty01" required>
+                                </div>
+                                <div>
+                                    <label class="form-label">Temporary Password:</label>
+                                    <input type="password" id="admin-new-password" class="form-input" placeholder="Enter secure password" required>
+                                </div>
+                                <div>
+                                    <label class="form-label">System Role:</label>
+                                    <select id="admin-new-role" class="form-select" required>
+                                        <option value="STUDENT">STUDENT</option>
+                                        <option value="REGISTRAR">REGISTRAR</option>
+                                        <option value="ADVISOR">ADVISOR</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Linked Student ID (optional):</label>
+                                    <input type="number" id="admin-new-student-id" class="form-input" placeholder="e.g. 1 (only for STUDENT)">
+                                </div>
+                                <div style="grid-column: 1 / -1; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+                                    <button type="button" class="btn btn-secondary" onclick="toggleAddUserBox(false)">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Create User</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Users Table -->
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Linked Student</th>
+                                        <th>Account Status</th>
+                                        <th>Created Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Subtab 2: Student Records Management -->
+                    <div id="admin-subtab-students" class="admin-subtab-content">
+                        <div class="admin-section-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <h3>Enrolled Student Cohort Records</h3>
+                                <span class="section-desc" id="admin-student-filter-status">Showing: <strong>All Students</strong></span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">FILTER BY RISK:</span>
+                                <div class="risk-filter-group" id="admin-student-risk-filter-group">
+                                    <button type="button" class="btn btn-sm btn-filter-risk active" data-risk="ALL">All</button>
+                                    <button type="button" class="btn btn-sm btn-filter-risk risk-btn-high" data-risk="HIGH">🚨 High Risk</button>
+                                    <button type="button" class="btn btn-sm btn-filter-risk risk-btn-medium" data-risk="MEDIUM">⚠️ Medium Risk</button>
+                                    <button type="button" class="btn btn-sm btn-filter-risk risk-btn-low" data-risk="LOW">✅ Low Risk</button>
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-admin-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Roll Number</th>
+                                        <th>Student Name</th>
+                                        <th>Email</th>
+                                        <th>GPA</th>
+                                        <th>Attendance</th>
+                                        <th>Risk Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-students-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Subtab 3: Course & Prerequisite Management -->
+                    <div id="admin-subtab-courses" class="admin-subtab-content">
+                        <div class="admin-section-header">
+                            <h3>Curricular Courses & Prerequisite DAG Dependencies</h3>
+                        </div>
+                        <div class="grid-two-columns">
+                            <div>
+                                <h4 style="margin-bottom: 0.75rem;">Courses Catalog</h4>
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Course Title</th>
+                                                <th>Credits</th>
+                                                <th>Department</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-courses-tbody">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0.75rem;">Prerequisite DAG Directed Edges</h4>
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Course</th>
+                                                <th>Requires Prerequisite</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-prereqs-tbody">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtab 4: Timetable Management -->
+                    <div id="admin-subtab-timetable" class="admin-subtab-content">
+                        <div class="admin-section-header">
+                            <h3>Timetable Schedule Allocations</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Slot ID</th>
+                                        <th>Course</th>
+                                        <th>Day of Week</th>
+                                        <th>Time Slot</th>
+                                        <th>Room</th>
+                                        <th>Faculty Instructor</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-slots-tbody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Subtab 5: Institutional Reports -->
+                    <div id="admin-subtab-reports" class="admin-subtab-content">
+                        <div class="admin-section-header">
+                            <h3>Comprehensive Institutional Analytics & Audit Reports</h3>
+                            <button id="btn-refresh-reports" class="btn btn-secondary btn-sm" onclick="loadAdminReports()">🔄 Refresh Data</button>
+                        </div>
+                        <div class="grid-two-columns" style="margin-bottom: 1.5rem;">
+                            <div class="panel">
+                                <div class="panel-header">
+                                    <h4>Academic Risk Profile Distribution</h4>
+                                </div>
+                                <div class="panel-body" id="admin-report-risk">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <div class="panel-header">
+                                    <h4> Department Course Coverage</h4>
+                                </div>
+                                <div class="panel-body" id="admin-report-dept">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h4> Active Course Enrollment Density</h4>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Course Code</th>
+                                                <th>Course Name</th>
+                                                <th>Department</th>
+                                                <th>Credits</th>
+                                                <th>Active Enrolled Students</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-report-courses-tbody">
+                                            <!-- Populated dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Detailed Course Details / Confirmation -->
+    <div id="modal-container" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-title">Registration Confirmation</h3>
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="modal-footer" id="modal-footer-content">
+                <button class="btn btn-secondary" id="modal-cancel-btn">Cancel</button>
+                <button class="btn btn-primary" id="modal-confirm-btn">Confirm Enrollment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Student Record -->
+    <div id="edit-modal-container" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Edit Student Academic Record</h3>
+                <button class="modal-close" id="edit-modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-student-form" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;">Student Name:</label>
+                        <input type="text" id="edit-name" class="form-input" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;">Email Address:</label>
+                        <input type="email" id="edit-email" class="form-input" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;">GPA (0.0-4.0):</label>
+                            <input type="number" id="edit-gpa" class="form-input" step="0.01" min="0.0" max="4.0" required>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;">Attendance %:</label>
+                            <input type="number" id="edit-attendance" class="form-input" step="0.1" min="0.0" max="100.0" required>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;">Failed Courses:</label>
+                            <input type="number" id="edit-failed-courses" class="form-input" step="1" min="0" max="10" required>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+                        Saving updates <code>registration.db</code> and immediately recalculates the statistical academic risk score and alert flag.
+                    </p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="edit-modal-cancel-btn">Cancel</button>
+                <button class="btn btn-primary" id="edit-modal-save-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Forgot Password & OTP Password Reset -->
+    <div id="forgot-password-modal" class="modal-overlay hidden">
+        <div class="modal-box" style="max-width: 520px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.4rem;"></span>
+                    <div>
+                        <h3 id="fp-modal-title" style="margin: 0;">Student Password Recovery</h3>
+                        <span id="fp-step-indicator" style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">Step 1 of 4: Identify Student</span>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeForgotPasswordModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 1.25rem;">
+
+                <!-- STEP 1: Enter Roll Number -->
+                <div id="fp-step-1">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
+                        Please enter your registered <strong>Roll Number</strong> to locate your student account and initiate password reset.
+                    </p>
+                    <div id="fp-step1-error" class="login-error-banner hidden" style="margin-bottom: 1rem;"></div>
+                    <form id="fp-form-step1">
+                        <div class="form-group" style="margin-bottom: 1.25rem;">
+                            <label class="form-label" for="fp-roll-input">Student Roll Number</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🆔</span>
+                                <input type="text" id="fp-roll-input" class="form-input" placeholder="e.g. CS2023001" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem;">
+                            <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
+                            <button type="submit" id="fp-btn-step1-next" class="btn btn-primary">
+                                <span id="fp-btn-step1-text">Next: Identify Student</span>
+                                <span id="fp-btn-step1-spinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 2: Show Masked Contact & Select OTP Channel -->
+                <div id="fp-step-2" class="hidden">
+                    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-sm); padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+                        <span style="font-size: 0.8rem; color: #93c5fd; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Student Identified</span>
+                        <div style="font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-top: 0.2rem;" id="fp-student-display-name">Aarav Sharma</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);" id="fp-student-display-roll">Roll No: CS2023001</div>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                        Select where you would like to receive the one-time verification OTP:
+                    </p>
+                    <div id="fp-step2-error" class="login-error-banner hidden" style="margin-bottom: 1rem;"></div>
+                    <form id="fp-form-step2">
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+                            <label class="channel-option-card" style="display: flex; align-items: center; gap: 0.9rem; padding: 0.85rem 1rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.2s;">
+                                <input type="radio" name="fp-channel" value="EMAIL" checked style="accent-color: var(--primary); transform: scale(1.15);">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">📧 Registered Email Address</div>
+                                    <div style="font-family: monospace; color: #93c5fd; font-size: 0.88rem; margin-top: 0.15rem;" id="fp-masked-email">aa****@univ.edu</div>
+                                </div>
+                            </label>
+                            <label class="channel-option-card" style="display: flex; align-items: center; gap: 0.9rem; padding: 0.85rem 1rem; background: var(--bg-surface-elevated); border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; transition: border-color 0.2s;">
+                                <input type="radio" name="fp-channel" value="MOBILE" style="accent-color: var(--primary); transform: scale(1.15);">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">📱 Registered Mobile Number</div>
+                                    <div style="font-family: monospace; color: #93c5fd; font-size: 0.88rem; margin-top: 0.15rem;" id="fp-masked-mobile">******1234</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; gap: 0.6rem;">
+                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(1)">← Back</button>
+                            <button type="submit" id="fp-btn-step2-send" class="btn btn-primary">
+                                <span id="fp-btn-step2-text">Send Verification OTP</span>
+                                <span id="fp-btn-step2-spinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 3: Enter OTP & Verification -->
+                <div id="fp-step-3" class="hidden">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem; line-height: 1.5;">
+                        We sent a 6-digit verification code to <strong id="fp-sent-destination" style="color: #93c5fd;"></strong>.
+                    </p>
+
+                    <!-- Demo OTP Hint (for viva / testing) -->
+                    <div id="fp-demo-otp-banner" class="hidden" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-sm); padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.85rem; color: #6ee7b7;">
+                         <strong>Viva / Demo Hint:</strong> Simulated dispatch code is <strong id="fp-demo-otp-code" style="font-size: 1.05rem; letter-spacing: 2px; color: #34d399; font-family: monospace;">123456</strong>
+                    </div>
+
+                    <div id="fp-step3-error" class="login-error-banner hidden" style="margin-bottom: 1rem;"></div>
+
+                    <form id="fp-form-step3">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label" for="fp-otp-input">Enter 6-Digit OTP</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon"></span>
+                                <input type="text" id="fp-otp-input" class="form-input" placeholder="Enter 6-digit OTP" maxlength="6" pattern="[0-9]{6}" required autocomplete="one-time-code" style="font-size: 1.25rem; letter-spacing: 4px; font-weight: 700; text-align: center;">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div style="color: var(--text-muted);">
+                                 Expires in: <strong id="fp-otp-timer" style="color: #f59e0b; font-family: monospace;">05:00</strong>
+                            </div>
+                            <button type="button" id="fp-btn-resend-otp" class="btn-link" style="font-size: 0.85rem; padding: 0;">
+                                Resend OTP
+                            </button>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 0.6rem;">
+                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(2)">← Change Channel</button>
+                            <button type="submit" id="fp-btn-step3-verify" class="btn btn-primary">
+                                <span id="fp-btn-step3-text">Verify OTP</span>
+                                <span id="fp-btn-step3-spinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 4: Set New Password -->
+                <div id="fp-step-4" class="hidden">
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                        OTP verified! Please create a new secure password for your student account (minimum 8 characters).
+                    </p>
+                    <div id="fp-step4-error" class="login-error-banner hidden" style="margin-bottom: 1rem;"></div>
+                    <form id="fp-form-step4">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label class="form-label" for="fp-new-password">New Password</label>
+                            <div class="input-with-icon password-input-wrap">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="fp-new-password" class="form-input" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+                                <button type="button" id="btn-toggle-fp-new-pw" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label" for="fp-confirm-password">Confirm New Password</label>
+                            <div class="input-with-icon password-input-wrap">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="fp-confirm-password" class="form-input" placeholder="Re-enter new password" minlength="8" required autocomplete="new-password">
+                                <button type="button" id="btn-toggle-fp-confirm-pw" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 0.6rem;">
+                            <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
+                            <button type="submit" id="fp-btn-step4-reset" class="btn btn-primary">
+                                <span id="fp-btn-step4-text">Update Password</span>
+                                <span id="fp-btn-step4-spinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 5: Success Confirmation -->
+                <div id="fp-step-5" class="hidden" style="text-align: center; padding: 1rem 0;">
+                    <div style="font-size: 3.5rem; margin-bottom: 0.75rem;">✅</div>
+                    <h3 style="font-size: 1.3rem; color: #34d399; margin-bottom: 0.5rem;">Password Reset Successful</h3>
+                    <p style="font-size: 0.92rem; color: var(--text-primary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Your student account password has been updated in the database.<br>
+                        Please sign in with your Roll Number and new password.
+                    </p>
+                    <button type="button" class="btn btn-primary btn-lg" onclick="fpFinishAndGoToLogin()">
+                        Return to Login
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Admin Resetting User Password -->
+    <div id="admin-reset-pw-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>🔒 Reset User Password</h3>
+                <button class="modal-close" onclick="closeResetPwModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="reset-pw-user-id">
+                <p style="margin-bottom: 0.8rem; font-size: 0.9rem;">
+                    Set a new password for account <strong id="reset-pw-username" style="color: var(--primary);"></strong>:
+                </p>
+                <div>
+                    <label class="form-label">New Password:</label>
+                    <input type="password" id="reset-pw-input" class="form-input" placeholder="Enter new password" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeResetPwModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitResetPassword()">Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
