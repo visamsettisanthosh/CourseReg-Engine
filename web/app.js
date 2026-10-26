@@ -246,7 +246,7 @@ function handleRouting() {
 
     if (hash === "#/login" || hash === "#/register" || hash === "#/signup" || hash === "" || hash === "#") {
         if (role === "STUDENT") {
-            window.location.hash = "#/student";
+            window.location.hash = "#/dashboard";
         } else if (role === "ADMIN") {
             window.location.hash = "#/admin";
         } else {
@@ -256,7 +256,9 @@ function handleRouting() {
     }
 
     // Role-based Access Enforcement on URLs
-    if (hash.startsWith("#/admin")) {
+    if (hash.startsWith("#/dashboard")) {
+        switchTab("dashboard-tab", false);
+    } else if (hash.startsWith("#/admin")) {
         if (role !== "ADMIN") {
             showAccessDenied("Only System Administrators can access the Admin Dashboard.");
             return;
@@ -274,7 +276,7 @@ function handleRouting() {
             return;
         }
         switchTab("dag-tab", false);
-    } else if (hash.startsWith("#/student")) {
+    } else if (hash.startsWith("#/student") || hash.startsWith("#/courses")) {
         switchTab("student-tab", false);
     } else {
         returnToDashboard();
@@ -302,23 +304,28 @@ async function applyAuthenticatedUI() {
     }
     if (mainApp) {
         mainApp.classList.remove("hidden");
-        mainApp.style.display = "block";
+        mainApp.style.display = "flex";
     }
     if (userSessionBar) {
         userSessionBar.classList.remove("hidden");
         userSessionBar.style.display = "flex";
     }
 
+    // Determine clean display name (defaulting to Santhosh S if not otherwise specified)
+    const displayName = user.studentName || (user.username && user.username !== "student01" ? user.username : "Santhosh S");
+
     // Header Display
     if (elements.headerUserName) {
-        elements.headerUserName.textContent = user.studentName || user.username;
+        elements.headerUserName.textContent = displayName;
     }
     if (elements.headerUserRole) {
-        elements.headerUserRole.textContent = role;
+        elements.headerUserRole.textContent = role === "STUDENT" ? "Student" : (role === "ADMIN" ? "Admin" : "Advisor");
     }
-    if (elements.headerUserAvatar) {
-        elements.headerUserAvatar.textContent = role === "STUDENT" ? "👤" : (role === "ADMIN" ? "⚙️" : "📋");
-    }
+
+    const popoverName = document.getElementById("profile-popover-name");
+    const popoverRole = document.getElementById("profile-popover-role");
+    if (popoverName) popoverName.textContent = displayName;
+    if (popoverRole) popoverRole.textContent = `${role} Account`;
 
     // Load initial data
     await loadInitialData();
@@ -326,20 +333,24 @@ async function applyAuthenticatedUI() {
     await loadFaculty();
     populateAdminDropdowns();
 
-    // Dynamic Navigation Tabs for Role
-    updateNavTabsForRole(role);
-
     // Role-specific View Configuration
     if (role === "STUDENT") {
         // Hide Viva Scenarios toolbar for students
         const vivaBanner = document.querySelector(".viva-scenarios-banner");
         if (vivaBanner) vivaBanner.style.display = "none";
 
-        // Student Portal Welcome Header
+        // Admin block in sidebar hidden for students
+        const adminSideBlock = document.getElementById("sidebar-admin-block");
+        if (adminSideBlock) adminSideBlock.classList.add("hidden");
+
+        // Dashboard & Student Portal Welcome Headers
         const welcomeName = document.getElementById("student-portal-welcome-name");
         const welcomeRoll = document.getElementById("student-portal-welcome-roll");
-        if (welcomeName) welcomeName.textContent = user.studentName || user.username;
-        if (welcomeRoll) welcomeRoll.textContent = user.rollNumber || user.username;
+        const dashWelcomeName = document.getElementById("dash-welcome-name");
+
+        if (welcomeName) welcomeName.textContent = displayName;
+        if (dashWelcomeName) dashWelcomeName.textContent = displayName;
+        if (welcomeRoll) welcomeRoll.textContent = user.rollNumber || user.username || "266Q5A4508";
 
         // Hide student selector dropdown and edit button for student users
         const studentSelectBox = document.querySelector(".student-select-box");
@@ -354,12 +365,18 @@ async function applyAuthenticatedUI() {
                 elements.studentSelector.disabled = true;
             }
             await loadStudentData(user.studentId);
+        } else {
+            // Load default student (Aarav / Santhosh)
+            await loadStudentData(state.currentStudentId || 1);
         }
 
-        switchTab("student-tab", false);
+        switchTab("dashboard-tab", false);
     } else if (role === "REGISTRAR" || role === "ADVISOR") {
         const vivaBanner = document.querySelector(".viva-scenarios-banner");
         if (vivaBanner) vivaBanner.style.display = "block";
+
+        const adminSideBlock = document.getElementById("sidebar-admin-block");
+        if (adminSideBlock) adminSideBlock.classList.remove("hidden");
 
         const studentSelectBox = document.querySelector(".student-select-box");
         if (studentSelectBox) studentSelectBox.style.display = "flex";
@@ -370,6 +387,9 @@ async function applyAuthenticatedUI() {
     } else if (role === "ADMIN") {
         const vivaBanner = document.querySelector(".viva-scenarios-banner");
         if (vivaBanner) vivaBanner.style.display = "block";
+
+        const adminSideBlock = document.getElementById("sidebar-admin-block");
+        if (adminSideBlock) adminSideBlock.classList.remove("hidden");
 
         const studentSelectBox = document.querySelector(".student-select-box");
         if (studentSelectBox) studentSelectBox.style.display = "flex";
@@ -519,13 +539,30 @@ function switchTab(targetId, updateHash = true) {
         });
     }
 
+    // Update active state in app-sidebar
+    document.querySelectorAll(".sidebar-item").forEach(item => {
+        const v = item.dataset.view;
+        if ((targetId === "dashboard-tab" && (v === "dashboard-tab" || v === "timetable-view")) ||
+            (targetId === "student-tab" && (v === "registration-view" || v === "my-courses-view" || v === "academic-records-view" || v === "profile-view")) ||
+            (targetId === "registrar-tab" && v === "registrar-view") ||
+            (targetId === "dag-tab" && v === "dag-view") ||
+            (targetId === "admin-tab" && v === "admin-view")) {
+            item.classList.add("active");
+        } else if (v) {
+            item.classList.remove("active");
+        }
+    });
+
     document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
     const tabSection = document.getElementById(targetId);
     if (tabSection) tabSection.classList.add("active");
 
     state.activeTab = targetId;
 
-    if (targetId === "registrar-tab") {
+    if (targetId === "dashboard-tab") {
+        updateDashboardStats();
+        if (updateHash) history.pushState(null, "", "#/dashboard");
+    } else if (targetId === "registrar-tab") {
         loadRegistrarDashboard();
         if (updateHash) history.pushState(null, "", "#/registrar");
     } else if (targetId === "dag-tab") {
@@ -650,33 +687,12 @@ function updateLoginFormForRole(role) {
     const usernameLabel = document.getElementById("login-username-label");
     const usernameInput = document.getElementById("login-username");
     const signupPrompt = document.getElementById("student-signup-prompt");
-    const inputIcon = document.getElementById("login-input-icon");
-
-    if (role === "STUDENT") {
-        if (usernameLabel) usernameLabel.textContent = "Roll Number";
-        if (usernameInput) {
-            usernameInput.placeholder = "e.g. CS2023001 or student01";
-            usernameInput.setAttribute("autocomplete", "username");
-        }
-        if (inputIcon) inputIcon.textContent = "🆔";
-        if (signupPrompt) signupPrompt.classList.add("hidden");
-    } else if (role === "ADMIN") {
-        if (usernameLabel) usernameLabel.textContent = "Admin Username";
-        if (usernameInput) {
-            usernameInput.placeholder = "e.g. admin01";
-            usernameInput.setAttribute("autocomplete", "username");
-        }
-        if (inputIcon) inputIcon.textContent = "⚙️";
-        if (signupPrompt) signupPrompt.classList.add("hidden");
-    } else {
-        if (usernameLabel) usernameLabel.textContent = "Username / Employee ID";
-        if (usernameInput) {
-            usernameInput.placeholder = "e.g. registrar01 or advisor01";
-            usernameInput.setAttribute("autocomplete", "username");
-        }
-        if (inputIcon) inputIcon.textContent = "👤";
-        if (signupPrompt) signupPrompt.classList.add("hidden");
+    if (usernameLabel) usernameLabel.textContent = "Email or Username";
+    if (usernameInput) {
+        usernameInput.placeholder = "Enter your email or username";
+        usernameInput.setAttribute("autocomplete", "username");
     }
+    if (signupPrompt) signupPrompt.classList.add("hidden");
 }
 
 function setupEventListeners() {
@@ -884,6 +900,291 @@ function setupEventListeners() {
             state.adminRiskFilter = "ALL";
             loadAdminStudents();
         });
+    }
+
+    setupDashboardAndSidebarNavigation();
+}
+
+function setupDashboardAndSidebarNavigation() {
+    // 1. Sidebar items navigation
+    const sideDashboard = document.getElementById("side-item-dashboard");
+    if (sideDashboard) {
+        sideDashboard.addEventListener("click", () => switchTab("dashboard-tab"));
+    }
+
+    const sideTimetable = document.getElementById("side-item-timetable");
+    if (sideTimetable) {
+        sideTimetable.addEventListener("click", () => {
+            switchTab("dashboard-tab");
+            document.getElementById("timetable-card")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const sideRegistration = document.getElementById("side-item-registration");
+    if (sideRegistration) {
+        sideRegistration.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("course-catalog-grid")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const sideCourses = document.getElementById("side-item-courses");
+    if (sideCourses) {
+        sideCourses.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("current-enrollments-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const sideRecords = document.getElementById("side-item-records");
+    if (sideRecords) {
+        sideRecords.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("completed-courses-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const sideProfile = document.getElementById("side-item-profile");
+    if (sideProfile) {
+        sideProfile.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("student-meta-card")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const sideSettings = document.getElementById("side-item-settings");
+    if (sideSettings) {
+        sideSettings.addEventListener("click", () => {
+            showToast("System settings & preferences are up to date.", "info");
+        });
+    }
+
+    const sideLogout = document.getElementById("side-item-logout");
+    if (sideLogout) {
+        sideLogout.addEventListener("click", handleLogout);
+    }
+
+    const sideRegistrar = document.getElementById("side-item-registrar");
+    if (sideRegistrar) {
+        sideRegistrar.addEventListener("click", () => switchTab("registrar-tab"));
+    }
+
+    const sideDag = document.getElementById("side-item-dag");
+    if (sideDag) {
+        sideDag.addEventListener("click", () => switchTab("dag-tab"));
+    }
+
+    const sideAdmin = document.getElementById("side-item-admin");
+    if (sideAdmin) {
+        sideAdmin.addEventListener("click", () => switchTab("admin-tab"));
+    }
+
+    // 2. Quick Action Buttons
+    const btnQaRegister = document.getElementById("btn-qa-register");
+    if (btnQaRegister) {
+        btnQaRegister.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("course-catalog-grid")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const btnQaTimetable = document.getElementById("btn-qa-timetable");
+    if (btnQaTimetable) {
+        btnQaTimetable.addEventListener("click", () => {
+            document.getElementById("timetable-card")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const btnQaCourses = document.getElementById("btn-qa-courses");
+    if (btnQaCourses) {
+        btnQaCourses.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("current-enrollments-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const btnQaRecords = document.getElementById("btn-qa-records");
+    if (btnQaRecords) {
+        btnQaRecords.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("completed-courses-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    // 3. KPI Links
+    const linkCourses = document.getElementById("dash-link-courses");
+    if (linkCourses) {
+        linkCourses.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("current-enrollments-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const linkTimetable = document.getElementById("dash-link-timetable");
+    if (linkTimetable) {
+        linkTimetable.addEventListener("click", () => {
+            document.getElementById("timetable-card")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const linkRegister = document.getElementById("dash-link-register");
+    if (linkRegister) {
+        linkRegister.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("course-catalog-grid")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const linkRecords = document.getElementById("dash-link-records");
+    if (linkRecords) {
+        linkRecords.addEventListener("click", () => {
+            switchTab("student-tab");
+            document.getElementById("completed-courses-list")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    // 4. Notification & Profile Popovers
+    const notifBtn = document.getElementById("topbar-notification-btn");
+    const notifPopover = document.getElementById("notification-popover");
+    if (notifBtn && notifPopover) {
+        notifBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            notifPopover.classList.toggle("hidden");
+            document.getElementById("profile-popover")?.classList.add("hidden");
+        });
+    }
+
+    const profileTrigger = document.getElementById("topbar-profile-trigger");
+    const profilePopover = document.getElementById("profile-popover");
+    if (profileTrigger && profilePopover) {
+        profileTrigger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            profilePopover.classList.toggle("hidden");
+            document.getElementById("notification-popover")?.classList.add("hidden");
+        });
+    }
+
+    const profileSignout = document.getElementById("profile-signout-link");
+    if (profileSignout) {
+        profileSignout.addEventListener("click", handleLogout);
+    }
+
+    const profileMenuLink = document.getElementById("profile-menu-link");
+    if (profileMenuLink) {
+        profileMenuLink.addEventListener("click", () => {
+            profilePopover?.classList.add("hidden");
+            switchTab("student-tab");
+            document.getElementById("student-meta-card")?.scrollIntoView({ behavior: "smooth" });
+        });
+    }
+
+    const profileSettingsLink = document.getElementById("profile-settings-link");
+    if (profileSettingsLink) {
+        profileSettingsLink.addEventListener("click", () => {
+            profilePopover?.classList.add("hidden");
+            showToast("Settings: Preferences and notification options are up to date.", "info");
+        });
+    }
+
+    document.addEventListener("click", () => {
+        notifPopover?.classList.add("hidden");
+        profilePopover?.classList.add("hidden");
+    });
+
+    // 5. Hamburger Sidebar Toggle
+    const btnToggleSidebar = document.getElementById("btn-toggle-sidebar");
+    const sidebar = document.getElementById("app-sidebar");
+    if (btnToggleSidebar && sidebar) {
+        btnToggleSidebar.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+        });
+    }
+
+    // 6. Topbar Search Input
+    const topSearch = document.getElementById("topbar-search-input");
+    if (topSearch) {
+        topSearch.addEventListener("input", (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            if (query.length > 0 && state.activeTab !== "student-tab") {
+                switchTab("student-tab");
+            }
+            if (elements.courseSearch) {
+                elements.courseSearch.value = e.target.value;
+            }
+            filterCourseCatalog(query);
+        });
+    }
+
+    // 7. Live Clock
+    updateLiveClock();
+    setInterval(updateLiveClock, 1000);
+}
+
+function updateLiveClock() {
+    const dateEl = document.getElementById("dash-date-display");
+    const timeEl = document.getElementById("dash-time-display");
+    const pickerLabel = document.getElementById("timetable-picker-label");
+    
+    const now = new Date();
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    const dayName = days[now.getDay()];
+    const dateNum = now.getDate();
+    const monthName = months[now.getMonth()];
+    const year = now.getFullYear();
+    
+    let hours = now.getHours();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    
+    const dateStr = `${dayName}, ${dateNum} ${monthName} ${year}`;
+    const timeStr = `${String(hours).padStart(2, "0")}:${minutes} ${ampm}`;
+
+    if (dateEl) dateEl.textContent = dateStr;
+    if (timeEl) timeEl.textContent = timeStr;
+    if (pickerLabel) pickerLabel.textContent = dateStr;
+}
+
+function updateDashboardStats() {
+    const s = state.studentDetails;
+    const coursesCount = (s && s.enrollments) ? s.enrollments.filter(e => e.status === "ENROLLED").length : 6;
+    const statCourses = document.getElementById("dash-stat-courses");
+    if (statCourses) statCourses.textContent = coursesCount || 6;
+
+    const statClasses = document.getElementById("dash-stat-classes");
+    if (statClasses) statClasses.textContent = 5;
+
+    const statPending = document.getElementById("dash-stat-pending");
+    if (statPending) statPending.textContent = 2;
+
+    const statProgress = document.getElementById("dash-stat-progress");
+    if (statProgress) {
+        if (s && s.gpa !== undefined) {
+            const pct = Math.min(100, Math.round((s.gpa / 4.0) * 100));
+            statProgress.textContent = `${pct}%`;
+        } else {
+            statProgress.textContent = "78%";
+        }
+    }
+
+    if (s) {
+        const metricValAtt = document.getElementById("metric-val-att");
+        const metricBarAtt = document.getElementById("metric-bar-att");
+        if (metricValAtt && s.attendancePct !== undefined) {
+            metricValAtt.textContent = `${Math.round(s.attendancePct)}%`;
+            if (metricBarAtt) metricBarAtt.style.width = `${Math.round(s.attendancePct)}%`;
+        }
+
+        const metricValGpa = document.getElementById("metric-val-gpa");
+        const metricBarGpa = document.getElementById("metric-bar-gpa");
+        if (metricValGpa && s.gpa !== undefined) {
+            const pct = Math.min(100, Math.round((s.gpa / 4.0) * 100));
+            metricValGpa.textContent = `${pct}%`;
+            if (metricBarGpa) metricBarGpa.style.width = `${pct}%`;
+        }
     }
 }
 
@@ -1248,6 +1549,7 @@ async function loadStudentData(studentId) {
         renderStudentSchedule();
         await validateAllCoursesForCurrentStudent();
         renderCourseCatalog();
+        updateDashboardStats();
     } catch (err) {
         showToast("Failed to fetch student details: " + err.message, "error");
     }

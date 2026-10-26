@@ -3,803 +3,1540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CourseReg Engine - Smart Course Registration & Academic Planning System</title>
+    <title>College Registration &amp; Timetable System</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Top Header -->
-    <header class="app-header">
-        <div class="header-brand">
-            <div class="brand-text">
-                <h1 class="brand-title">CourseReg Engine</h1>
-                <p class="brand-tagline">Smart Course Registration & Academic Planning System</p>
-                <p class="brand-desc">Manage courses, validate prerequisites, detect timetable conflicts, and monitor academic risk.</p>
-            </div>
-        </div>
-        <div class="header-controls">
-            <div class="semester-pill">
-                <span class="dot"></span>
-                <span>Active Term: <strong>Spring 2026</strong></span>
-            </div>
-            <nav class="nav-tabs hidden" id="main-nav-tabs">
-                <button class="nav-tab active" data-tab="student-tab" id="nav-tab-student">Student Portal</button>
-                <button class="nav-tab" data-tab="registrar-tab" id="nav-tab-registrar">Registrar & Advisor</button>
-                <button class="nav-tab" data-tab="dag-tab" id="nav-tab-dag">Prerequisite DAG</button>
-                <button class="nav-tab" data-tab="admin-tab" id="nav-tab-admin">Admin Dashboard</button>
-            </nav>
-            <div id="user-session-bar" class="user-session-bar hidden">
-                <div class="user-chip">
-                    <span class="user-avatar" id="header-user-avatar">👤</span>
-                    <div class="user-meta">
-                        <span class="user-display-name" id="header-user-name">Guest</span>
-                        <span class="user-role-badge" id="header-user-role">STUDENT</span>
-                    </div>
-                </div>
-                <button id="btn-logout" class="btn btn-logout-danger" title="Sign Out">Sign Out</button>
-            </div>
-        </div>
-    </header>
 
     <!-- ================================================================= -->
-    <!-- AUTHENTICATION VIEW: PROFESSIONAL LOGIN PAGE -->
+    <!-- AUTHENTICATION VIEW: PROFESSIONAL SPLIT LOGIN PAGE (IMAGE 1)       -->
     <!-- ================================================================= -->
-    <div id="login-view" class="login-view-wrapper">
-        <div class="login-card">
-            <div class="login-brand">
-                <h1 class="login-title">CourseReg Engine</h1>
-                <p class="login-subtitle">Smart Course Registration & Academic Planning System</p>
-                <p class="login-caption">Sign in to access your course registration, schedule, or institutional dashboard.</p>
+    <div id="login-view" class="login-split-page">
+        <!-- Left Side: Hero Branding & Features -->
+        <div class="login-left-hero">
+            <div class="hero-brand-header">
+                <div class="hero-logo-icon">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 6L4 16L24 26L44 16L24 6Z" fill="#FFFFFF"/>
+                        <path d="M10 21V33C10 33 16 38 24 38C32 38 38 33 38 33V21L24 29L10 21Z" fill="#FFFFFF" fill-opacity="0.9"/>
+                        <path d="M41 18V31H43V18H41Z" fill="#FFFFFF"/>
+                        <circle cx="42" cy="33" r="2.5" fill="#FFFFFF"/>
+                    </svg>
+                </div>
+                <div class="hero-brand-text">
+                    <h2 class="hero-brand-title">College Registration &amp;<br>Timetable System</h2>
+                    <p class="hero-brand-tagline">Smarter Registration &nbsp;|&nbsp; Better Planning &nbsp;|&nbsp; Brighter Future</p>
+                </div>
             </div>
 
-            <!-- Role Selector Tabs -->
-            <div class="role-selector-pills">
-                <button type="button" class="role-pill active" data-role="STUDENT" id="role-btn-student">
-                    <span class="role-pill-icon"></span> Student
-                </button>
-                <button type="button" class="role-pill" data-role="REGISTRAR / ADVISOR" id="role-btn-registrar">
-                    <span class="role-pill-icon"></span> Registrar / Advisor
-                </button>
-                <button type="button" class="role-pill" data-role="ADMIN" id="role-btn-admin">
-                    <span class="role-pill-icon"></span> Admin
-                </button>
-            </div>
+            <div class="hero-center-content">
+                <h1 class="hero-headline">
+                    Your Academic Journey<br>
+                    Starts <span class="hero-glow-word">Here</span>
+                </h1>
+                <p class="hero-subheading">
+                    Manage courses, view timetables, track progress and more — all in one place.
+                </p>
 
-            <!-- Error Banner -->
-            <div id="login-error-banner" class="login-error-banner hidden"></div>
+                <!-- 4 Feature Pills in a Row -->
+                <div class="hero-features-row">
+                    <div class="feature-item">
+                        <div class="feature-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                                <circle cx="8" cy="14" r="1" fill="currentColor"></circle>
+                                <circle cx="12" cy="14" r="1" fill="currentColor"></circle>
+                                <circle cx="16" cy="14" r="1" fill="currentColor"></circle>
+                                <circle cx="8" cy="18" r="1" fill="currentColor"></circle>
+                                <circle cx="12" cy="18" r="1" fill="currentColor"></circle>
+                            </svg>
+                        </div>
+                        <div class="feature-label">Course<br>Registration</div>
+                    </div>
 
-            <!-- Login Form -->
-            <form id="login-form" class="login-form">
-                <input type="hidden" id="login-selected-role" value="STUDENT">
+                    <div class="feature-item">
+                        <div class="feature-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="feature-label">Timetable<br>Management</div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="login-username" class="form-label" id="login-username-label">Roll Number</label>
-                    <div class="input-with-icon">
-                        <span class="input-icon" id="login-input-icon">🆔</span>
-                        <input type="text" id="login-username" class="form-input" placeholder="e.g. CS2023001 or student01" required autocomplete="username">
+                    <div class="feature-item">
+                        <div class="feature-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="feature-label">Academic<br>Progress</div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <text x="12" y="14" font-size="7" font-weight="800" text-anchor="middle" fill="currentColor" stroke="none" font-family="'Inter', sans-serif">AI</text>
+                            </svg>
+                        </div>
+                        <div class="feature-label">AI Based<br>Risk Prediction</div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="login-password" class="form-label">Password</label>
-                    <div class="input-with-icon password-input-wrap">
-                        <span class="input-icon">🔒</span>
-                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
-                        <button type="button" id="btn-toggle-password" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
+                <!-- Handwriting Cursive Script with Swoosh -->
+                <div class="hero-cursive-block">
+                    <span class="hero-cursive-text">Learn &bull; Grow &bull; Succeed</span>
+                    <svg class="hero-cursive-swoosh" viewBox="0 0 220 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 22 C 75 4, 155 2, 216 14" stroke="rgba(255,255,255,0.85)" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Dark Glassmorphic Card -->
+        <div class="login-right-panel">
+            <div class="login-glass-card" id="login-card">
+                <!-- Top Brand inside card -->
+                <div class="login-card-brand">
+                    <div class="card-logo-icon">
+                        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 5L3 14L20 23L37 14L20 5Z" fill="#FFFFFF"/>
+                            <path d="M8 18V28C8 28 13 32 20 32C27 32 32 28 32 28V18L20 24L8 18Z" fill="#FFFFFF" fill-opacity="0.9"/>
+                        </svg>
+                    </div>
+                    <div class="card-brand-title">
+                        College Registration &amp;<br>Timetable System
                     </div>
                 </div>
 
-                <div class="login-form-options">
-                    <label class="remember-me-label">
-                        <input type="checkbox" id="login-remember-me" checked>
-                        <span>Remember Me</span>
-                    </label>
-                    <button type="button" id="btn-forgot-password" class="btn-link">Forgot Password?</button>
+                <div class="login-greeting-wrap">
+                    <h2 class="login-title">Welcome Back!</h2>
+                    <p class="login-subtitle">Sign in to access your account and continue.</p>
                 </div>
 
-                <button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-lg">
-                    <span id="login-btn-text">Sign In</span>
-                    <span id="login-btn-spinner" class="spinner hidden"></span>
-                </button>
+                <!-- Role Selector Pills -->
+                <div class="role-selector-section">
+                    <label class="role-selector-label">Select Your Role</label>
+                    <div class="role-selector-cards">
+                        <!-- Student Role Card (Active) -->
+                        <button type="button" class="role-pill active" data-role="STUDENT" id="role-btn-student">
+                            <span class="role-check-badge">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M13.485 3.515a1 1 0 0 1 0 1.414l-6.364 6.364a1 1 0 0 1-1.414 0L2.515 8.1a1 1 0 1 1 1.414-1.414l2.485 2.485 5.657-5.656a1 1 0 0 1 1.414 0z"/>
+                                </svg>
+                            </span>
+                            <div class="role-card-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                                </svg>
+                            </div>
+                            <div class="role-card-title">Student</div>
+                            <div class="role-card-desc">Access your courses, timetable and results</div>
+                        </button>
 
-                <!-- Official Student Provisioning Notice -->
-                <div class="login-provision-notice">
-                    <span class="notice-badge">ℹ️ Student Account Policy</span>
-                    <p>Student accounts are provisioned exclusively by college administration or academic staff. Please sign in using the Roll Number and password provided to you.</p>
+                        <!-- Registrar / Advisor Role Card -->
+                        <button type="button" class="role-pill" data-role="REGISTRAR / ADVISOR" id="role-btn-registrar">
+                            <span class="role-check-badge">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M13.485 3.515a1 1 0 0 1 0 1.414l-6.364 6.364a1 1 0 0 1-1.414 0L2.515 8.1a1 1 0 1 1 1.414-1.414l2.485 2.485 5.657-5.656a1 1 0 0 1 1.414 0z"/>
+                                </svg>
+                            </span>
+                            <div class="role-card-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                                </svg>
+                            </div>
+                            <div class="role-card-title">Registrar / Advisor</div>
+                            <div class="role-card-desc">Manage students, approvals and records</div>
+                        </button>
+
+                        <!-- Admin Role Card -->
+                        <button type="button" class="role-pill" data-role="ADMIN" id="role-btn-admin">
+                            <span class="role-check-badge">
+                                <svg viewBox="0 0 16 16" fill="currentColor">
+                                    <path d="M13.485 3.515a1 1 0 0 1 0 1.414l-6.364 6.364a1 1 0 0 1-1.414 0L2.515 8.1a1 1 0 1 1 1.414-1.414l2.485 2.485 5.657-5.656a1 1 0 0 1 1.414 0z"/>
+                                </svg>
+                            </span>
+                            <div class="role-card-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.4 0 2.5 1.1 2.5 2.5S13.4 12 12 12s-2.5-1.1-2.5-2.5S10.6 7 12 7zm0 10.9c-2.7 0-5.8-1.29-6-2.5.02-.74 2.82-1.9 6-1.9s5.98 1.16 6 1.9c-.2 1.21-3.3 2.5-6 2.5z"/>
+                                </svg>
+                            </div>
+                            <div class="role-card-title">Admin</div>
+                            <div class="role-card-desc">Manage system, users and settings</div>
+                        </button>
+                    </div>
                 </div>
-            </form>
+
+                <!-- Error Banner -->
+                <div id="login-error-banner" class="login-error-banner hidden"></div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="login-form">
+                    <input type="hidden" id="login-selected-role" value="STUDENT">
+
+                    <div class="form-group">
+                        <label for="login-username" class="form-label" id="login-username-label">Email or Username</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon" id="login-input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="login-username" class="form-input" placeholder="Enter your email or username" required autocomplete="username">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <div class="input-with-icon password-input-wrap">
+                            <span class="input-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+                            <button type="button" id="btn-toggle-password" class="btn-toggle-pw" title="Show or Hide Password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="login-form-options">
+                        <label class="remember-me-label">
+                            <input type="checkbox" id="login-remember-me" checked>
+                            <span class="custom-checkbox-box"></span>
+                            <span>Remember me</span>
+                        </label>
+                        <button type="button" id="btn-forgot-password" class="btn-link">Forgot password?</button>
+                    </div>
+
+                    <button type="submit" id="btn-login-submit" class="btn-signin-primary">
+                        <span id="login-btn-text">
+                            <svg class="signin-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10 17 15 12 10 7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            Sign In
+                        </span>
+                        <span id="login-btn-spinner" class="spinner hidden"></span>
+                    </button>
+
+                    <!-- Secure Login Footer -->
+                    <div class="login-secure-footer">
+                        <svg class="secure-shield-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                        <span>Secure Login &nbsp;|&nbsp; Your data is protected</span>
+                    </div>
+
+                    <!-- Subtle Policy Info Link / Hint -->
+                    <div class="login-policy-hint">
+                        <span>ℹ️ Accounts are managed by institution registry. Use your assigned credentials.</span>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <main class="app-container hidden" id="main-app-container">
+    <!-- ================================================================= -->
+    <!-- POST-LOGIN PORTAL / DASHBOARD LAYOUT (IMAGE 2)                     -->
+    <!-- ================================================================= -->
+    <div class="app-layout hidden" id="main-app-container">
         <!-- Toast Alerts Container -->
         <div id="toast-container" class="toast-container"></div>
 
-        <!-- Viva Demo Evaluation Scenarios Toolbar -->
-        <div class="viva-scenarios-banner">
-            <div class="viva-banner-header">
-                <div class="viva-title">
-                    <span class="viva-badge">VIVA EVALUATION</span>
-                    <strong>1-Click Interactive Demonstration Scenarios:</strong>
+        <!-- Left Dark Navy Sidebar -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-logo">
+                    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 4L3 12L18 20L33 12L18 4Z" fill="#FFFFFF"/>
+                        <path d="M7 16V25C7 25 11 29 18 29C25 29 29 25 29 25V16L18 21.5L7 16Z" fill="#FFFFFF" fill-opacity="0.9"/>
+                    </svg>
                 </div>
-                <span class="viva-subtitle">Click any scenario to auto-configure student data and verify algorithm defenses live:</span>
-            </div>
-            <div class="scenarios-button-grid" id="scenarios-button-grid">
-                <!-- Dynamically populated from /api/scenarios -->
-            </div>
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- TAB 1: STUDENT REGISTRATION PORTAL -->
-        <!-- ================================================================= -->
-        <section id="student-tab" class="tab-content active">
-            <!-- Student Welcome Banner -->
-            <div class="student-welcome-banner" id="student-welcome-banner">
-                <div class="student-welcome-info">
-                    <span class="welcome-tag">CourseReg Engine • Student Portal</span>
-                    <h2 class="welcome-heading">Welcome, <span id="student-portal-welcome-name">Student</span></h2>
-                    <div class="welcome-badges">
-                        <span class="welcome-pill">Roll Number: <strong id="student-portal-welcome-roll">--</strong></span>
-                        <span class="welcome-pill">Current Term: <strong>Spring 2026</strong></span>
-                    </div>
+                <div class="sidebar-brand-text">
+                    College Registration &amp;<br>Timetable System
                 </div>
             </div>
 
-            <!-- Student Selector & Profile Bar -->
-            <div class="profile-card">
-                <div class="student-select-box">
-                    <label for="student-selector">Select Active Student:</label>
-                    <select id="student-selector" class="form-select">
-                        <!-- Populated by JavaScript -->
-                    </select>
-                </div>
-                <div class="student-meta-details" id="student-meta-card">
-                    <!-- Populated dynamically -->
-                </div>
-                <button id="btn-edit-student" class="btn btn-secondary" style="white-space: nowrap;">
-                    <span></span> Edit Record
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <!-- Dashboard (Active by default) -->
+                <button type="button" class="sidebar-item active" data-view="dashboard-tab" id="side-item-dashboard">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Dashboard</span>
                 </button>
-            </div>
 
-            <!-- Student Active Schedule & Enrolled Courses -->
-            <div class="grid-two-columns">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2> My Current Registered Courses (Spring 2026)</h2>
-                        <span class="badge badge-info" id="enrolled-count-badge">0 Enrolled</span>
+                <!-- View Timetable -->
+                <button type="button" class="sidebar-item" data-view="timetable-view" id="side-item-timetable">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">View Timetable</span>
+                </button>
+
+                <!-- Course Registration -->
+                <button type="button" class="sidebar-item" data-view="registration-view" id="side-item-registration">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            <polyline points="9 13 11 15 15 11"></polyline>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Course Registration</span>
+                </button>
+
+                <!-- My Courses -->
+                <button type="button" class="sidebar-item" data-view="my-courses-view" id="side-item-courses">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">My Courses</span>
+                </button>
+
+                <!-- Academic Records -->
+                <button type="button" class="sidebar-item" data-view="academic-records-view" id="side-item-records">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Academic Records</span>
+                </button>
+
+                <!-- Profile -->
+                <button type="button" class="sidebar-item" data-view="profile-view" id="side-item-profile">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Profile</span>
+                </button>
+
+                <!-- Settings -->
+                <button type="button" class="sidebar-item" data-view="settings-view" id="side-item-settings">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Settings</span>
+                </button>
+
+                <!-- Logout -->
+                <button type="button" class="sidebar-item sidebar-logout-btn" id="side-item-logout">
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </span>
+                    <span class="sidebar-label">Logout</span>
+                </button>
+
+                <!-- Administrative Links Section (shown for Registrar & Admin) -->
+                <div class="sidebar-admin-block hidden" id="sidebar-admin-block">
+                    <div class="sidebar-divider"></div>
+                    <div class="sidebar-header-tag">ADMINISTRATION</div>
+                    <button type="button" class="sidebar-item" data-view="registrar-view" id="side-item-registrar">
+                        <span class="sidebar-icon">📋</span>
+                        <span class="sidebar-label">Registrar &amp; Advisor</span>
+                    </button>
+                    <button type="button" class="sidebar-item" data-view="dag-view" id="side-item-dag">
+                        <span class="sidebar-icon">🌳</span>
+                        <span class="sidebar-label">Prerequisite DAG</span>
+                    </button>
+                    <button type="button" class="sidebar-item" data-view="admin-view" id="side-item-admin">
+                        <span class="sidebar-icon">⚙️</span>
+                        <span class="sidebar-label">Admin Governance</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Sidebar Bottom Wave & Copyright -->
+            <div class="sidebar-footer">
+                <svg class="sidebar-wave-graphic" viewBox="0 0 260 60" preserveAspectRatio="none">
+                    <path d="M0,20 C80,50 160,0 260,30 L260,60 L0,60 Z" fill="#061224" fill-opacity="0.8"/>
+                </svg>
+                <div class="sidebar-footer-text">
+                    <p>&copy; 2025 College Portal</p>
+                    <span>Built for Better Learning</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Main Wrapper -->
+        <div class="app-main-wrapper">
+            <!-- Top Navigation Bar -->
+            <header class="app-topbar">
+                <div class="topbar-left">
+                    <button class="topbar-hamburger" id="btn-toggle-sidebar" title="Toggle Navigation Menu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="topbar-search-box">
+                        <svg class="search-glass-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                        <input type="text" id="topbar-search-input" placeholder="Search courses, subjects...">
                     </div>
-                    <div class="panel-body">
-                        <div id="current-enrollments-list" class="enrollments-list">
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Notification Bell with Red Badge -->
+                    <div class="topbar-notification-wrap" id="topbar-notification-btn" title="Notifications">
+                        <button class="notification-icon-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span class="notification-count-badge">3</span>
+                        </button>
+
+                        <!-- Notification Dropdown Popover -->
+                        <div class="notification-popover hidden" id="notification-popover">
+                            <div class="notification-popover-header">
+                                <h4>Notifications</h4>
+                                <span class="badge-unread">3 New</span>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notification-item">
+                                    <span class="notif-dot red"></span>
+                                    <div class="notif-content">
+                                        <div class="notif-title">Course Registration Deadline</div>
+                                        <div class="notif-date">25 Sep 2025</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <span class="notif-dot yellow"></span>
+                                    <div class="notif-content">
+                                        <div class="notif-title">DBMS Lab Test Scheduled</div>
+                                        <div class="notif-date">27 Sep 2025</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <span class="notif-dot blue"></span>
+                                    <div class="notif-content">
+                                        <div class="notif-title">Project Submission Window</div>
+                                        <div class="notif-date">05 Oct 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Profile Dropdown Pill -->
+                    <div class="user-session-bar" id="user-session-bar">
+                        <div class="topbar-profile-chip" id="topbar-profile-trigger">
+                            <div class="profile-avatar-circle" id="header-user-avatar">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                            </div>
+                            <div class="profile-name-stack">
+                                <span class="profile-display-name" id="header-user-name">Santhosh S</span>
+                                <span class="profile-role-tag" id="header-user-role">Student</span>
+                            </div>
+                            <svg class="profile-chevron-arrow" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <button id="btn-logout" class="btn btn-logout-danger hidden" title="Sign Out">Sign Out</button>
+
+                        <!-- Profile Popover -->
+                        <div class="profile-popover hidden" id="profile-popover">
+                            <div class="profile-popover-header">
+                                <strong id="profile-popover-name">Santhosh S</strong>
+                                <span id="profile-popover-role">Student Account</span>
+                            </div>
+                            <div class="profile-popover-links">
+                                <a href="javascript:void(0)" id="profile-menu-link">👤 My Profile</a>
+                                <a href="javascript:void(0)" id="profile-settings-link">⚙️ Account Settings</a>
+                                <div class="profile-popover-divider"></div>
+                                <a href="javascript:void(0)" id="profile-signout-link" class="signout-link">🚪 Sign Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden compatibility Nav Tabs queried by original app.js -->
+                <nav class="nav-tabs hidden" id="main-nav-tabs">
+                    <button class="nav-tab active" data-tab="dashboard-tab" id="nav-tab-dashboard">Dashboard</button>
+                    <button class="nav-tab" data-tab="student-tab" id="nav-tab-student">Student Portal</button>
+                    <button class="nav-tab" data-tab="registrar-tab" id="nav-tab-registrar">Registrar &amp; Advisor</button>
+                    <button class="nav-tab" data-tab="dag-tab" id="nav-tab-dag">Prerequisite DAG</button>
+                    <button class="nav-tab" data-tab="admin-tab" id="nav-tab-admin">Admin Dashboard</button>
+                </nav>
+            </header>
+
+            <!-- Scrollable Content Body -->
+            <main class="app-content-body">
+                <!-- Optional Viva Scenarios Bar (Collapsible for examiners) -->
+                <div class="viva-scenarios-banner" id="viva-scenarios-bar">
+                    <div class="viva-banner-header">
+                        <div class="viva-title">
+                            <span class="viva-badge">VIVA EXAMINATION</span>
+                            <strong>Interactive Scenario Defenses:</strong>
+                        </div>
+                        <span class="viva-subtitle">1-Click Live Demonstration &amp; Verification Matrix</span>
+                    </div>
+                    <div class="scenarios-button-grid" id="scenarios-button-grid">
+                        <!-- Populated dynamically from /api/scenarios -->
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- VIEW 1: DASHBOARD TAB (IMAGE 2 PRIMARY INTERFACE)           -->
+                <!-- ========================================================= -->
+                <section id="dashboard-tab" class="tab-content active">
+                    <!-- Top Welcome Banner Card -->
+                    <div class="welcome-hero-card">
+                        <div class="welcome-left-col">
+                            <div class="welcome-cap-circle">
+                                <svg viewBox="0 0 32 32" fill="#2563EB">
+                                    <path d="M16 3L2 10l14 7 11.5-5.75V19h2v-8.75L16 3zM6 14.18v4.5L16 24l10-5.32v-4.5L16 19.5 6 14.18z"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-title-wrap">
+                                <h2 class="welcome-user-title">Welcome, <span id="dash-welcome-name">Santhosh S</span>!</h2>
+                                <p class="welcome-user-sub">Manage your courses, view timetable, and stay updated with your academic progress.</p>
+                            </div>
+                        </div>
+
+                        <div class="welcome-right-col">
+                            <div class="calendar-clock-card">
+                                <div class="calendar-clock-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </div>
+                                <div class="calendar-clock-details">
+                                    <span class="cal-date-text" id="dash-date-display">Mon, 22 Sep 2025</span>
+                                    <span class="cal-time-text" id="dash-time-display">05:08 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4 Pastel Stat Cards Row -->
+                    <div class="dash-stat-grid">
+                        <!-- Stat Card 1: My Courses -->
+                        <div class="dash-kpi-card card-blue" id="kpi-click-mycourses">
+                            <div class="kpi-top-row">
+                                <div class="kpi-badge-icon icon-blue">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-label-text">My Courses</div>
+                            <div class="kpi-big-number" id="dash-stat-courses">6</div>
+                            <a href="javascript:void(0)" class="kpi-footer-link link-blue" id="dash-link-courses">View Courses &rarr;</a>
+                        </div>
+
+                        <!-- Stat Card 2: Upcoming Classes -->
+                        <div class="dash-kpi-card card-green" id="kpi-click-classes">
+                            <div class="kpi-top-row">
+                                <div class="kpi-badge-icon icon-green">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-label-text">Upcoming Classes</div>
+                            <div class="kpi-big-number" id="dash-stat-classes">5</div>
+                            <a href="javascript:void(0)" class="kpi-footer-link link-green" id="dash-link-timetable">View Timetable &rarr;</a>
+                        </div>
+
+                        <!-- Stat Card 3: Pending Registrations -->
+                        <div class="dash-kpi-card card-purple" id="kpi-click-pending">
+                            <div class="kpi-top-row">
+                                <div class="kpi-badge-icon icon-purple">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                        <polyline points="9 13 11 15 15 11"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-label-text">Pending Registrations</div>
+                            <div class="kpi-big-number" id="dash-stat-pending">2</div>
+                            <a href="javascript:void(0)" class="kpi-footer-link link-purple" id="dash-link-register">Register Now &rarr;</a>
+                        </div>
+
+                        <!-- Stat Card 4: Academic Progress -->
+                        <div class="dash-kpi-card card-orange" id="kpi-click-progress">
+                            <div class="kpi-top-row">
+                                <div class="kpi-badge-icon icon-orange">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-label-text">Academic Progress</div>
+                            <div class="kpi-big-number" id="dash-stat-progress">78%</div>
+                            <a href="javascript:void(0)" class="kpi-footer-link link-orange" id="dash-link-records">View Details &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Middle Two-Column Grid: Timetable (Left) + Quick Actions & Important (Right) -->
+                    <div class="dash-middle-grid">
+                        <!-- Left Column: My Timetable -->
+                        <div class="dash-content-card timetable-main-card" id="timetable-card">
+                            <div class="dash-card-header">
+                                <div class="dash-card-title-group">
+                                    <div class="header-cal-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                    </div>
+                                    <h3 class="dash-section-title">My Timetable</h3>
+                                </div>
+
+                                <div class="timetable-date-controls">
+                                    <div class="date-pill-picker">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="pill-cal-icon">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        <span id="timetable-picker-label">Mon, 22 Sep 2025</span>
+                                    </div>
+                                    <button class="cal-nav-btn prev" id="btn-tt-prev" title="Previous Day">&lt;</button>
+                                    <button class="cal-nav-btn next" id="btn-tt-next" title="Next Day">&gt;</button>
+                                </div>
+                            </div>
+
+                            <!-- Modern Table with Dark Navy Header (matching Image 2) -->
+                            <div class="timetable-table-wrap">
+                                <table class="timetable-styled-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Subject Code</th>
+                                            <th>Subject Name</th>
+                                            <th>Type</th>
+                                            <th>Room</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="timetable-mock-tbody">
+                                        <tr>
+                                            <td class="cell-time">09:00 AM - 10:00 AM</td>
+                                            <td class="cell-code">DBMS</td>
+                                            <td class="cell-name">Database Management Systems</td>
+                                            <td><span class="type-pill lecture">Lecture</span></td>
+                                            <td class="cell-room">CS-101</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cell-time">10:15 AM - 11:15 AM</td>
+                                            <td class="cell-code">DMGT</td>
+                                            <td class="cell-name">Discrete Mathematics &amp; Graph Theory</td>
+                                            <td><span class="type-pill lecture">Lecture</span></td>
+                                            <td class="cell-room">CS-102</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cell-time">11:30 AM - 12:30 PM</td>
+                                            <td class="cell-code">ADSA</td>
+                                            <td class="cell-name">Advanced Data Structures &amp; Algorithms</td>
+                                            <td><span class="type-pill lecture">Lecture</span></td>
+                                            <td class="cell-room">CS-103</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cell-time">01:30 PM - 02:30 PM</td>
+                                            <td class="cell-code">OOPJ</td>
+                                            <td class="cell-name">Object-Oriented Programming through Java</td>
+                                            <td><span class="type-pill lab">Lab</span></td>
+                                            <td class="cell-room">LAB-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cell-time">02:45 PM - 03:45 PM</td>
+                                            <td class="cell-code">Python</td>
+                                            <td class="cell-name">Python Programming</td>
+                                            <td><span class="type-pill lecture">Lecture</span></td>
+                                            <td class="cell-room">CS-104</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Quick Actions + Upcoming & Important -->
+                        <div class="dash-right-stack">
+                            <!-- Quick Actions Card -->
+                            <div class="dash-content-card quick-actions-card">
+                                <div class="dash-card-header compact">
+                                    <h3 class="dash-section-title"><span class="qa-bolt">⚡</span> Quick Actions</h3>
+                                </div>
+                                <div class="quick-action-buttons">
+                                    <button class="btn-qa-primary" id="btn-qa-register">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 20h9"></path>
+                                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                        </svg>
+                                        Register for Courses
+                                    </button>
+
+                                    <button class="btn-qa-outline" id="btn-qa-timetable">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                        </svg>
+                                        View Timetable
+                                    </button>
+
+                                    <button class="btn-qa-outline" id="btn-qa-courses">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                        </svg>
+                                        View My Courses
+                                    </button>
+
+                                    <button class="btn-qa-outline" id="btn-qa-records">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        </svg>
+                                        View Academic Records
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming & Important Card -->
+                            <div class="dash-content-card upcoming-card">
+                                <div class="dash-card-header compact">
+                                    <h3 class="dash-section-title">
+                                        <span class="upcoming-bell">🔔</span> Upcoming &amp; Important
+                                    </h3>
+                                    <a href="javascript:void(0)" class="dash-header-link" id="link-view-all-notifs">View All</a>
+                                </div>
+
+                                <div class="upcoming-items-list">
+                                    <div class="upcoming-row">
+                                        <span class="status-bullet red"></span>
+                                        <div class="upcoming-info">
+                                            <div class="upcoming-text">Course Registration Deadline</div>
+                                            <div class="upcoming-sub">25 Sep 2025</div>
+                                        </div>
+                                        <span class="upcoming-chevron">&gt;</span>
+                                    </div>
+
+                                    <div class="upcoming-row">
+                                        <span class="status-bullet yellow"></span>
+                                        <div class="upcoming-info">
+                                            <div class="upcoming-text">DBMS Lab Test</div>
+                                            <div class="upcoming-sub">27 Sep 2025</div>
+                                        </div>
+                                        <span class="upcoming-chevron">&gt;</span>
+                                    </div>
+
+                                    <div class="upcoming-row">
+                                        <span class="status-bullet green"></span>
+                                        <div class="upcoming-info">
+                                            <div class="upcoming-text">College Holiday</div>
+                                            <div class="upcoming-sub">30 Sep 2025</div>
+                                        </div>
+                                        <span class="upcoming-chevron">&gt;</span>
+                                    </div>
+
+                                    <div class="upcoming-row">
+                                        <span class="status-bullet blue"></span>
+                                        <div class="upcoming-info">
+                                            <div class="upcoming-text">Project Submission</div>
+                                            <div class="upcoming-sub">05 Oct 2025</div>
+                                        </div>
+                                        <span class="upcoming-chevron">&gt;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Three-Column Cards: Current Semester, Academic Summary, Keep Going -->
+                    <div class="dash-bottom-grid">
+                        <!-- Card 1: Current Semester -->
+                        <div class="dash-content-card bottom-kpi-card">
+                            <div class="dash-card-header compact">
+                                <div class="dash-card-title-group">
+                                    <span class="bottom-icon">🎓</span>
+                                    <h3 class="dash-section-title">Current Semester</h3>
+                                </div>
+                            </div>
+                            <div class="current-sem-content">
+                                <h4 class="sem-badge-title">B.Tech (CSE) - Semester 3</h4>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill blue" style="width: 50%;"></div>
+                                </div>
+                                <div class="sem-progress-caption">3 / 6 Courses Completed</div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Academic Summary -->
+                        <div class="dash-content-card bottom-kpi-card">
+                            <div class="dash-card-header compact">
+                                <div class="dash-card-title-group">
+                                    <span class="bottom-icon">📊</span>
+                                    <h3 class="dash-section-title">Academic Summary</h3>
+                                </div>
+                            </div>
+                            <div class="academic-summary-content">
+                                <div class="summary-metric-row">
+                                    <span class="metric-label">Attendance</span>
+                                    <span class="metric-val" id="metric-val-att">92%</span>
+                                    <div class="progress-bar-container inline">
+                                        <div class="progress-bar-fill teal" id="metric-bar-att" style="width: 92%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-metric-row">
+                                    <span class="metric-label">Assignment Completion</span>
+                                    <span class="metric-val">85%</span>
+                                    <div class="progress-bar-container inline">
+                                        <div class="progress-bar-fill blue" style="width: 85%;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="summary-metric-row">
+                                    <span class="metric-label">Overall Performance</span>
+                                    <span class="metric-val" id="metric-val-gpa">78%</span>
+                                    <div class="progress-bar-container inline">
+                                        <div class="progress-bar-fill purple" id="metric-bar-gpa" style="width: 78%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Keep Going! -->
+                        <div class="dash-content-card bottom-kpi-card keep-going-card">
+                            <div class="dash-card-header compact">
+                                <div class="dash-card-title-group">
+                                    <span class="bottom-icon">🎯</span>
+                                    <h3 class="dash-section-title">Keep Going!</h3>
+                                </div>
+                            </div>
+                            <div class="keep-going-content">
+                                <p class="keep-going-text">
+                                    Your hard work today builds a better tomorrow.
+                                </p>
+                                <div class="keep-going-rocket">
+                                    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M48 8C48 8 36 10 28 18C20 26 18 38 18 38L26 46C26 46 38 44 46 36C54 28 56 16 56 16L48 8Z" fill="#3B82F6"/>
+                                        <circle cx="37" cy="27" r="4" fill="#FFFFFF"/>
+                                        <path d="M18 38L10 44L14 50L20 46L18 38Z" fill="#EF4444"/>
+                                        <path d="M26 46L22 52L28 56L34 48L26 46Z" fill="#EF4444"/>
+                                        <path d="M8 56C8 56 14 54 18 50L14 46C10 50 8 56 8 56Z" fill="#F59E0B"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- VIEW 2: STUDENT COURSE REGISTRATION PORTAL                 -->
+                <!-- ========================================================= -->
+                <section id="student-tab" class="tab-content">
+                    <!-- Student Welcome Header -->
+                    <div class="student-welcome-banner" id="student-welcome-banner">
+                        <div class="student-welcome-info">
+                            <span class="welcome-tag">Course Registration &amp; Academic Planning Engine</span>
+                            <h2 class="welcome-heading">Student Registration Portal: <span id="student-portal-welcome-name">Student</span></h2>
+                            <div class="welcome-badges">
+                                <span class="welcome-pill">Roll Number: <strong id="student-portal-welcome-roll">--</strong></span>
+                                <span class="welcome-pill">Term: <strong>Spring 2026</strong></span>
+                                <span class="welcome-pill">Prerequisite Engine: <strong>ADSA DAG</strong></span>
+                                <span class="welcome-pill">Conflict Detector: <strong>Interval Tree</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Selector & Profile Bar -->
+                    <div class="profile-card">
+                        <div class="student-select-box">
+                            <label for="student-selector">Select Active Student Profile:</label>
+                            <select id="student-selector" class="form-select">
+                                <!-- Populated by JavaScript -->
+                            </select>
+                        </div>
+                        <div class="student-meta-details" id="student-meta-card">
                             <!-- Populated dynamically -->
                         </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2> Transcript History (Completed Prerequisites)</h2>
-                        <span class="badge badge-success" id="completed-count-badge">0 Completed</span>
-                    </div>
-                    <div class="panel-body">
-                        <div id="completed-courses-list" class="transcript-list">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Course Catalog with Dynamic Prerequisite & Clash Check -->
-            <div class="panel catalog-panel">
-                <div class="panel-header catalog-header">
-                    <div>
-                        <h2>Course Catalog & Real-Time Registration</h2>
-                        <p class="section-desc">Prerequisites validated via DAG Topological traversal. Clashes detected via Augmented Interval Tree.</p>
-                    </div>
-                    <div class="catalog-filters">
-                        <input type="text" id="course-search" class="form-input" placeholder="Search by course code, title, or dept...">
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div id="course-catalog-grid" class="course-cards-grid">
-                        <!-- Populated dynamically with live status tags -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================================================================= -->
-        <!-- TAB 2: REGISTRAR & ACADEMIC ADVISOR DASHBOARD -->
-        <!-- ================================================================= -->
-        <section id="registrar-tab" class="tab-content">
-            <!-- Summary KPI Cards (Clickable Risk Filters) -->
-            <div class="kpi-grid">
-                <div class="kpi-card kpi-filter-card" id="kpi-filter-all" data-risk="ALL" title="Click to view All Students">
-                    <div class="kpi-icon">👥</div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Total Students</span>
-                        <span class="kpi-value" id="kpi-total-students">16</span>
-                        <span class="kpi-filter-hint">Show All</span>
-                    </div>
-                </div>
-                <div class="kpi-card kpi-high-risk kpi-filter-card" id="kpi-filter-high" data-risk="HIGH" title="Click to filter High Risk students">
-                    <div class="kpi-icon">🚨</div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">High Risk</span>
-                        <span class="kpi-value" id="kpi-high-risk">0</span>
-                        <span class="kpi-filter-hint">Filter High</span>
-                    </div>
-                </div>
-                <div class="kpi-card kpi-med-risk kpi-filter-card" id="kpi-filter-medium" data-risk="MEDIUM" title="Click to filter Medium Risk students">
-                    <div class="kpi-icon">⚠️</div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Medium Risk</span>
-                        <span class="kpi-value" id="kpi-med-risk">0</span>
-                        <span class="kpi-filter-hint">Filter Medium</span>
-                    </div>
-                </div>
-                <div class="kpi-card kpi-low-risk kpi-filter-card" id="kpi-filter-low" data-risk="LOW" title="Click to filter Low Risk (Good Standing) students">
-                    <div class="kpi-icon">✅</div>
-                    <div class="kpi-info">
-                        <span class="kpi-label">Good Standing</span>
-                        <span class="kpi-value" id="kpi-low-risk">0</span>
-                        <span class="kpi-filter-hint">Filter Low</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Student Account Details Lookup Panel -->
-            <div class="panel" id="panel-student-lookup">
-                <div class="panel-header">
-                    <div>
-                        <h2>Student Account Details Lookup</h2>
-                        <p class="section-desc">Search for any registered student by Roll Number or Student Name to inspect account status, contact information, and risk profile.</p>
-                    </div>
-                    <span class="badge badge-info">Advisor Verification</span>
-                </div>
-                <div class="panel-body">
-                    <form id="form-student-lookup" style="display: flex; gap: 0.75rem; max-width: 650px; margin-bottom: 1rem; flex-wrap: wrap;">
-                        <input type="text" id="registrar-search-student-input" class="form-input" style="flex: 1; min-width: 260px;" placeholder="Enter Roll Number (e.g. CS2023001) or Student Name..." required>
-                        <button type="submit" id="btn-registrar-search-student" class="btn btn-primary">
-                            <span> Search Student</span>
+                        <button id="btn-edit-student" class="btn btn-secondary" style="white-space: nowrap;">
+                            <span>✏️</span> Edit Record
                         </button>
-                        <button type="button" id="btn-registrar-clear-student" class="btn btn-secondary" style="display: none;">
-                            <span>✕ Clear</span>
-                        </button>
-                    </form>
-
-                    <!-- Search Result Container -->
-                    <div id="registrar-student-lookup-result" class="hidden">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Academic Advisor Alert Table -->
-            <div class="panel">
-                <div class="panel-header" style="flex-wrap: wrap; gap: 0.75rem;">
-                    <div>
-                        <h2> Academic Advisor Alerts: Monitored Students</h2>
-                        <span class="section-desc" id="advisor-filter-status">Showing: <strong>All Monitored Students</strong></span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">FILTER BY RISK:</span>
-                        <div class="risk-filter-group" id="advisor-risk-filter-group">
-                            <button type="button" class="btn btn-sm btn-filter-risk active" data-risk="ALL">All</button>
-                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-high" data-risk="HIGH">🚨 High Risk</button>
-                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-medium" data-risk="MEDIUM">⚠️ Medium Risk</button>
-                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-low" data-risk="LOW">✅ Low Risk</button>
-                        </div>
-                        <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-advisor-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Roll Number</th>
-                                    <th>Student Name</th>
-                                    <th>GPA</th>
-                                    <th>Attendance</th>
-                                    <th>Risk Score</th>
-                                    <th>Risk Flag</th>
-                                    <th>Recommended Advisor Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="advisor-alerts-tbody">
-                                <!-- Populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Master Enrollment Registry -->
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Master Enrollment Registry</h2>
-                    <span class="badge badge-info" id="total-enrollments-badge">Active Records</span>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Enrollment ID</th>
-                                    <th>Student</th>
-                                    <th>Course Code</th>
-                                    <th>Course Name</th>
-                                    <th>Semester</th>
-                                    <th>Status</th>
-                                    <th>Grade</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="master-enrollments-tbody">
-                                <!-- Populated dynamically -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Registrar Curriculum & Timetable Management Panel -->
-            <div class="panel">
-                <div class="panel-header">
-                    <div>
-                        <h2> Registrar Curriculum & Schedule Operations</h2>
-                        <p class="section-desc">Create courses, define prerequisite edges with cycle prevention, and schedule timetable slots.</p>
-                    </div>
-                    <span class="badge badge-info">Admin Controls</span>
-                </div>
-                <div class="panel-body">
-                    <div class="admin-grid">
-                        <!-- Add Course Card -->
-                        <div class="admin-card">
-                            <h3> Add New Course</h3>
-                            <form id="form-add-course" class="admin-form">
-                                <div class="form-group">
-                                    <label>Course Code:</label>
-                                    <input type="text" id="admin-course-code" class="form-input" placeholder="e.g. CS405" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Course Name:</label>
-                                    <input type="text" id="admin-course-name" class="form-input" placeholder="e.g. Cloud Computing" required>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Credits (1-6):</label>
-                                        <input type="number" id="admin-course-credits" class="form-input" value="3" min="1" max="6" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Department:</label>
-                                        <input type="text" id="admin-course-dept" class="form-input" value="Computer Science" required>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-course">Create Course</button>
-                            </form>
-                        </div>
-
-                        <!-- Add Prerequisite Link Card -->
-                        <div class="admin-card">
-                            <h3>Link Prerequisite (Cycle Protected)</h3>
-                            <form id="form-add-prereq" class="admin-form">
-                                <div class="form-group">
-                                    <label>Target Course (Dependent):</label>
-                                    <select id="admin-prereq-target" class="form-select" required></select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Prerequisite Course (Requirement):</label>
-                                    <select id="admin-prereq-source" class="form-select" required></select>
-                                </div>
-                                <p class="form-help">ADSA DAG 3-Color DFS detects cycles immediately. If cycle is created, transaction is rejected.</p>
-                                <button type="submit" class="btn btn-warning btn-sm" id="btn-submit-prereq">Add Dependency Edge</button>
-                            </form>
-                        </div>
-
-                        <!-- Add Timetable Slot Card -->
-                        <div class="admin-card">
-                            <h3> Schedule Timetable Slot</h3>
-                            <form id="form-add-slot" class="admin-form">
-                                <div class="form-group">
-                                    <label>Course:</label>
-                                    <select id="admin-slot-course" class="form-select" required></select>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Day:</label>
-                                        <select id="admin-slot-day" class="form-select">
-                                            <option value="MON">Monday</option>
-                                            <option value="TUE">Tuesday</option>
-                                            <option value="WED">Wednesday</option>
-                                            <option value="THU">Thursday</option>
-                                            <option value="FRI">Friday</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Room:</label>
-                                        <input type="text" id="admin-slot-room" class="form-input" value="Lab-4" required>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Start (HH:MM):</label>
-                                        <input type="text" id="admin-slot-start" class="form-input" value="11:00" placeholder="11:00" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>End (HH:MM):</label>
-                                        <input type="text" id="admin-slot-end" class="form-input" value="12:30" placeholder="12:30" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Faculty Instructor:</label>
-                                    <select id="admin-slot-faculty" class="form-select" required></select>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-slot">Assign Schedule Slot</button>
-                            </form>
-                        </div>
-
-                        <!-- Add Student Card -->
-                        <div class="admin-card">
-                            <h3> Add New Student</h3>
-                            <form id="form-add-student" class="admin-form">
-                                <div class="form-group">
-                                    <label>Student Full Name:</label>
-                                    <input type="text" id="admin-student-name" class="form-input" placeholder="e.g. Ananya Sen" required>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Email Address:</label>
-                                        <input type="email" id="admin-student-email" class="form-input" placeholder="ananya@univ.edu">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Roll Number (Optional):</label>
-                                        <input type="text" id="admin-student-roll" class="form-input" placeholder="Auto (CS2023xxx)">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group" style="grid-column: 1 / -1;">
-                                        <label>Student Initial Login Password:</label>
-                                        <input type="text" id="admin-student-password" class="form-input" placeholder="e.g. StudentPass123 (Default: Student@2026)">
-                                        <span class="form-hint" style="font-size: 0.78rem; color: var(--text-muted);">Staff / Admin can give this password and the Roll Number to the student for logging in.</span>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>GPA (0.00 - 4.00):</label>
-                                        <input type="number" step="0.01" id="admin-student-gpa" class="form-input" value="3.50" min="0.0" max="4.0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Attendance %:</label>
-                                        <input type="number" step="0.1" id="admin-student-att" class="form-input" value="90.0" min="0.0" max="100.0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Fails Count:</label>
-                                        <input type="number" id="admin-student-fails" class="form-input" value="0" min="0" max="10" required>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-student">Register Student & Provision Login</button>
-                                <div id="admin-student-created-alert" class="hidden" style="margin-top: 0.85rem; padding: 0.85rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px;"></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================================================================= -->
-        <!-- TAB 3: PREREQUISITE DAG VISUALIZER -->
-        <!-- ================================================================= -->
-        <section id="dag-tab" class="tab-content">
-            <div class="panel">
-                <div class="panel-header">
-                    <div>
-                        <h2> Prerequisite Topological DAG Hierarchy</h2>
-                        <p class="section-desc">Course prerequisite dependency graph \(G = (V, E)\). Edges represent \(C_{prereq} \to C_{dependent}\).</p>
-                    </div>
-                    <div class="dag-legend">
-                        <span class="legend-item"><span class="legend-circle" style="background:#10b981;"></span> Completed</span>
-                        <span class="legend-item"><span class="legend-circle" style="background:#3b82f6;"></span> Enrolled</span>
-                        <span class="legend-item"><span class="legend-circle" style="background:#06b6d4;"></span> Eligible</span>
-                        <span class="legend-item"><span class="legend-circle" style="background:#f59e0b;"></span> Prereq Required</span>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div id="dag-cycle-alert" class="dag-cycle-alert"></div>
-                    <div class="dag-topo-banner">
-                        <span class="topo-badge">Topological Study Sequence (Kahn's Algorithm):</span>
-                        <div id="dag-topo-order" class="topo-order-pills"></div>
-                    </div>
-                    <div id="dag-container" class="dag-visual-container">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Access Denied Card -->
-        <div id="access-denied-view" class="access-denied-card hidden">
-            <div class="access-denied-icon"></div>
-            <h2 class="access-denied-title">Access Denied</h2>
-            <p class="access-denied-msg">You do not have permission to access this page.</p>
-            <p class="access-denied-detail" id="access-denied-detail"></p>
-            <button id="btn-return-dashboard" class="btn btn-primary" onclick="returnToDashboard()">Return to My Dashboard</button>
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- TAB 4: DEDICATED ADMIN DASHBOARD -->
-        <!-- ================================================================= -->
-        <section id="admin-tab" class="tab-content">
-            <div class="panel">
-                <div class="panel-header">
-                    <div>
-                        <h2> Administrator Operations & System Governance</h2>
-                        <p class="section-desc">Manage system users, student records, courses, prerequisite constraints, timetable slots, and institutional audit reports.</p>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <!-- Admin Overview KPIs -->
-                    <div class="admin-kpi-grid">
-                        <div class="kpi-card kpi-filter-card" id="admin-kpi-filter-students" data-risk="ALL" title="Click to view all students in Student Records">
-                            <span class="kpi-label">Total Students</span>
-                            <span class="kpi-value" id="admin-kpi-students">-</span>
-                            <span class="kpi-sub">Enrolled active pool</span>
-                        </div>
-                        <div class="kpi-card">
-                            <span class="kpi-label">Catalog Courses</span>
-                            <span class="kpi-value" id="admin-kpi-courses">-</span>
-                            <span class="kpi-sub">Offering curricula</span>
-                        </div>
-                        <div class="kpi-card">
-                            <span class="kpi-label">Active Registrations</span>
-                            <span class="kpi-value" id="admin-kpi-registrations">-</span>
-                            <span class="kpi-sub">Spring 2026 commits</span>
-                        </div>
-                        <div class="kpi-card kpi-high-risk kpi-filter-card" id="admin-kpi-filter-high" data-risk="HIGH" title="Click to filter High Risk students in Student Records">
-                            <span class="kpi-label">High Risk Alerts</span>
-                            <span class="kpi-value risk-high" id="admin-kpi-high-risk">-</span>
-                            <span class="kpi-sub">Click to inspect cohort</span>
-                        </div>
-                        <div class="kpi-card">
-                            <span class="kpi-label">System User Accounts</span>
-                            <span class="kpi-value" id="admin-kpi-users">-</span>
-                            <span class="kpi-sub">Active login credentials</span>
-                        </div>
                     </div>
 
-                    <!-- Admin Navigation Sub-Tabs -->
-                    <div class="admin-subtabs">
-                        <button type="button" class="admin-subtab active" data-subtab="admin-subtab-users">👥 User Management</button>
-                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-students">👤 Student Records</button>
-                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-courses">📚 Course Catalog & Prerequisites</button>
-                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-timetable">⏰ Timetable Management</button>
-                        <button type="button" class="admin-subtab" data-subtab="admin-subtab-reports">📊 Institutional Reports</button>
-                    </div>
-
-                    <!-- Subtab 1: User Management -->
-                    <div id="admin-subtab-users" class="admin-subtab-content active">
-                        <div class="admin-section-header">
-                            <h3>User Accounts & Authentication Credentials</h3>
-                            <button id="btn-show-add-user" class="btn btn-primary btn-sm" onclick="toggleAddUserBox()">+ Add New User</button>
-                        </div>
-
-                        <!-- Add User Form (Collapsible) -->
-                        <div id="admin-add-user-box" class="admin-form-box hidden">
-                            <h4>Create New User Account</h4>
-                            <form id="admin-add-user-form" class="admin-form-grid" onsubmit="handleAdminAddUser(event)">
-                                <div>
-                                    <label class="form-label">Username:</label>
-                                    <input type="text" id="admin-new-username" class="form-input" placeholder="e.g. faculty01" required>
-                                </div>
-                                <div>
-                                    <label class="form-label">Temporary Password:</label>
-                                    <input type="password" id="admin-new-password" class="form-input" placeholder="Enter secure password" required>
-                                </div>
-                                <div>
-                                    <label class="form-label">System Role:</label>
-                                    <select id="admin-new-role" class="form-select" required>
-                                        <option value="STUDENT">STUDENT</option>
-                                        <option value="REGISTRAR">REGISTRAR</option>
-                                        <option value="ADVISOR">ADVISOR</option>
-                                        <option value="ADMIN">ADMIN</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="form-label">Linked Student ID (optional):</label>
-                                    <input type="number" id="admin-new-student-id" class="form-input" placeholder="e.g. 1 (only for STUDENT)">
-                                </div>
-                                <div style="grid-column: 1 / -1; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
-                                    <button type="button" class="btn btn-secondary" onclick="toggleAddUserBox(false)">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Create User</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Users Table -->
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Role</th>
-                                        <th>Linked Student</th>
-                                        <th>Account Status</th>
-                                        <th>Created Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-users-tbody">
+                    <!-- Student Active Schedule & Enrolled Courses -->
+                    <div class="grid-two-columns">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2>📖 My Registered Courses (Spring 2026)</h2>
+                                <span class="badge badge-info" id="enrolled-count-badge">0 Enrolled</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="current-enrollments-list" class="enrollments-list">
                                     <!-- Populated dynamically -->
-                                </tbody>
-                            </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2>🎓 Transcript History (Completed Prerequisites)</h2>
+                                <span class="badge badge-success" id="completed-count-badge">0 Completed</span>
+                            </div>
+                            <div class="panel-body">
+                                <div id="completed-courses-list" class="transcript-list">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Subtab 2: Student Records Management -->
-                    <div id="admin-subtab-students" class="admin-subtab-content">
-                        <div class="admin-section-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                    <!-- Course Catalog with Dynamic Prerequisite & Clash Check -->
+                    <div class="panel catalog-panel">
+                        <div class="panel-header catalog-header">
                             <div>
-                                <h3>Enrolled Student Cohort Records</h3>
-                                <span class="section-desc" id="admin-student-filter-status">Showing: <strong>All Students</strong></span>
+                                <h2>Course Catalog &amp; Real-Time Registration</h2>
+                                <p class="section-desc">Prerequisites validated via DAG Topological traversal. Clashes detected via Augmented Interval Tree in O(log n) time.</p>
+                            </div>
+                            <div class="catalog-filters">
+                                <input type="text" id="course-search" class="form-input" placeholder="Search by course code, title, or dept...">
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="course-catalog-grid" class="course-cards-grid">
+                                <!-- Populated dynamically with live status tags -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- VIEW 3: REGISTRAR & ACADEMIC ADVISOR DASHBOARD            -->
+                <!-- ========================================================= -->
+                <section id="registrar-tab" class="tab-content">
+                    <!-- Summary KPI Cards -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card kpi-filter-card" id="kpi-filter-all" data-risk="ALL" title="Click to view All Students">
+                            <div class="kpi-icon">👥</div>
+                            <div class="kpi-info">
+                                <span class="kpi-label">Total Students</span>
+                                <span class="kpi-value" id="kpi-total-students">16</span>
+                                <span class="kpi-filter-hint">Show All</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card kpi-high-risk kpi-filter-card" id="kpi-filter-high" data-risk="HIGH" title="Click to filter High Risk students">
+                            <div class="kpi-icon">🚨</div>
+                            <div class="kpi-info">
+                                <span class="kpi-label">High Risk</span>
+                                <span class="kpi-value" id="kpi-high-risk">0</span>
+                                <span class="kpi-filter-hint">Filter High</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card kpi-med-risk kpi-filter-card" id="kpi-filter-medium" data-risk="MEDIUM" title="Click to filter Medium Risk students">
+                            <div class="kpi-icon">⚠️</div>
+                            <div class="kpi-info">
+                                <span class="kpi-label">Medium Risk</span>
+                                <span class="kpi-value" id="kpi-med-risk">0</span>
+                                <span class="kpi-filter-hint">Filter Medium</span>
+                            </div>
+                        </div>
+                        <div class="kpi-card kpi-low-risk kpi-filter-card" id="kpi-filter-low" data-risk="LOW" title="Click to filter Low Risk (Good Standing) students">
+                            <div class="kpi-icon">✅</div>
+                            <div class="kpi-info">
+                                <span class="kpi-label">Good Standing</span>
+                                <span class="kpi-value" id="kpi-low-risk">0</span>
+                                <span class="kpi-filter-hint">Filter Low</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Account Details Lookup Panel -->
+                    <div class="panel" id="panel-student-lookup">
+                        <div class="panel-header">
+                            <div>
+                                <h2>Student Account Details Lookup</h2>
+                                <p class="section-desc">Search for any registered student by Roll Number or Student Name to inspect account status, contact information, and risk profile.</p>
+                            </div>
+                            <span class="badge badge-info">Advisor Verification</span>
+                        </div>
+                        <div class="panel-body">
+                            <form id="form-student-lookup" style="display: flex; gap: 0.75rem; max-width: 650px; margin-bottom: 1rem; flex-wrap: wrap;">
+                                <input type="text" id="registrar-search-student-input" class="form-input" style="flex: 1; min-width: 260px;" placeholder="Enter Roll Number (e.g. CS2023001) or Student Name..." required>
+                                <button type="submit" id="btn-registrar-search-student" class="btn btn-primary">
+                                    <span>🔍 Search Student</span>
+                                </button>
+                                <button type="button" id="btn-registrar-clear-student" class="btn btn-secondary" style="display: none;">
+                                    <span>✕ Clear</span>
+                                </button>
+                            </form>
+                            <div id="registrar-student-lookup-result" class="hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Advisor Alert Table -->
+                    <div class="panel">
+                        <div class="panel-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                            <div>
+                                <h2>🚨 Academic Advisor Alerts: Monitored Students</h2>
+                                <span class="section-desc" id="advisor-filter-status">Showing: <strong>All Monitored Students</strong></span>
                             </div>
                             <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                                 <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">FILTER BY RISK:</span>
-                                <div class="risk-filter-group" id="admin-student-risk-filter-group">
+                                <div class="risk-filter-group" id="advisor-risk-filter-group">
                                     <button type="button" class="btn btn-sm btn-filter-risk active" data-risk="ALL">All</button>
                                     <button type="button" class="btn btn-sm btn-filter-risk risk-btn-high" data-risk="HIGH">🚨 High Risk</button>
                                     <button type="button" class="btn btn-sm btn-filter-risk risk-btn-medium" data-risk="MEDIUM">⚠️ Medium Risk</button>
                                     <button type="button" class="btn btn-sm btn-filter-risk risk-btn-low" data-risk="LOW">✅ Low Risk</button>
                                 </div>
-                                <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-admin-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
+                                <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-advisor-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
                             </div>
                         </div>
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Roll Number</th>
-                                        <th>Student Name</th>
-                                        <th>Email</th>
-                                        <th>GPA</th>
-                                        <th>Attendance</th>
-                                        <th>Risk Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-students-tbody">
-                                    <!-- Populated dynamically -->
-                                </tbody>
-                            </table>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Roll Number</th>
+                                            <th>Student Name</th>
+                                            <th>GPA</th>
+                                            <th>Attendance</th>
+                                            <th>Risk Score</th>
+                                            <th>Risk Flag</th>
+                                            <th>Recommended Advisor Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="advisor-alerts-tbody">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Subtab 3: Course & Prerequisite Management -->
-                    <div id="admin-subtab-courses" class="admin-subtab-content">
-                        <div class="admin-section-header">
-                            <h3>Curricular Courses & Prerequisite DAG Dependencies</h3>
+                    <!-- Master Enrollment Registry -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2>Master Enrollment Registry</h2>
+                            <div style="display: flex; gap: 0.75rem; align-items: center;">
+                                <button id="btn-run-risk-pipeline" class="btn btn-warning btn-sm">⚡ Run ML Risk Engine</button>
+                                <span class="badge badge-info" id="total-enrollments-badge">Active Records</span>
+                            </div>
                         </div>
-                        <div class="grid-two-columns">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Enrollment ID</th>
+                                            <th>Student</th>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                            <th>Semester</th>
+                                            <th>Status</th>
+                                            <th>Grade</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="master-enrollments-tbody">
+                                        <!-- Populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registrar Curriculum & Timetable Operations -->
+                    <div class="panel">
+                        <div class="panel-header">
                             <div>
-                                <h4 style="margin-bottom: 0.75rem;">Courses Catalog</h4>
+                                <h2>🛠️ Registrar Curriculum &amp; Schedule Operations</h2>
+                                <p class="section-desc">Create courses, define prerequisite edges with cycle prevention, and schedule timetable slots.</p>
+                            </div>
+                            <span class="badge badge-info">Admin Controls</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="admin-grid">
+                                <!-- Add Course Card -->
+                                <div class="admin-card">
+                                    <h3>📚 Add New Course</h3>
+                                    <form id="form-add-course" class="admin-form">
+                                        <div class="form-group">
+                                            <label>Course Code:</label>
+                                            <input type="text" id="admin-course-code" class="form-input" placeholder="e.g. CS405" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Course Name:</label>
+                                            <input type="text" id="admin-course-name" class="form-input" placeholder="e.g. Cloud Computing" required>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Credits (1-6):</label>
+                                                <input type="number" id="admin-course-credits" class="form-input" value="3" min="1" max="6" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Department:</label>
+                                                <input type="text" id="admin-course-dept" class="form-input" value="Computer Science" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-course">Create Course</button>
+                                    </form>
+                                </div>
+
+                                <!-- Add Prerequisite Link Card -->
+                                <div class="admin-card">
+                                    <h3>🔗 Link Prerequisite (Cycle Protected)</h3>
+                                    <form id="form-add-prereq" class="admin-form">
+                                        <div class="form-group">
+                                            <label>Target Course (Dependent):</label>
+                                            <select id="admin-prereq-target" class="form-select" required></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Prerequisite Course (Requirement):</label>
+                                            <select id="admin-prereq-source" class="form-select" required></select>
+                                        </div>
+                                        <p class="form-help">ADSA DAG 3-Color DFS detects cycles immediately. If cycle is created, transaction is rejected.</p>
+                                        <button type="submit" class="btn btn-warning btn-sm" id="btn-submit-prereq">Add Dependency Edge</button>
+                                    </form>
+                                </div>
+
+                                <!-- Add Timetable Slot Card -->
+                                <div class="admin-card">
+                                    <h3>⏰ Schedule Timetable Slot</h3>
+                                    <form id="form-add-slot" class="admin-form">
+                                        <div class="form-group">
+                                            <label>Course:</label>
+                                            <select id="admin-slot-course" class="form-select" required></select>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Day:</label>
+                                                <select id="admin-slot-day" class="form-select">
+                                                    <option value="MON">Monday</option>
+                                                    <option value="TUE">Tuesday</option>
+                                                    <option value="WED">Wednesday</option>
+                                                    <option value="THU">Thursday</option>
+                                                    <option value="FRI">Friday</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Room:</label>
+                                                <input type="text" id="admin-slot-room" class="form-input" value="Lab-4" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Start (HH:MM):</label>
+                                                <input type="text" id="admin-slot-start" class="form-input" value="11:00" placeholder="11:00" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>End (HH:MM):</label>
+                                                <input type="text" id="admin-slot-end" class="form-input" value="12:30" placeholder="12:30" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Faculty Instructor:</label>
+                                            <select id="admin-slot-faculty" class="form-select" required></select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-slot">Assign Schedule Slot</button>
+                                    </form>
+                                </div>
+
+                                <!-- Add Student Card -->
+                                <div class="admin-card">
+                                    <h3>👤 Add New Student</h3>
+                                    <form id="form-add-student" class="admin-form">
+                                        <div class="form-group">
+                                            <label>Student Full Name:</label>
+                                            <input type="text" id="admin-student-name" class="form-input" placeholder="e.g. Ananya Sen" required>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>Email Address:</label>
+                                                <input type="email" id="admin-student-email" class="form-input" placeholder="ananya@univ.edu">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Roll Number (Optional):</label>
+                                                <input type="text" id="admin-student-roll" class="form-input" placeholder="Auto (CS2023xxx)">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group" style="grid-column: 1 / -1;">
+                                                <label>Student Initial Login Password:</label>
+                                                <input type="text" id="admin-student-password" class="form-input" placeholder="e.g. StudentPass123 (Default: Student@2026)">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label>GPA (0.00 - 4.00):</label>
+                                                <input type="number" step="0.01" id="admin-student-gpa" class="form-input" value="3.50" min="0.0" max="4.0" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Attendance %:</label>
+                                                <input type="number" step="0.1" id="admin-student-att" class="form-input" value="90.0" min="0.0" max="100.0" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Fails Count:</label>
+                                                <input type="number" id="admin-student-fails" class="form-input" value="0" min="0" max="10" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-sm" id="btn-submit-student">Register Student &amp; Provision Login</button>
+                                        <div id="admin-student-created-alert" class="hidden" style="margin-top: 0.85rem; padding: 0.85rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px;"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- VIEW 4: PREREQUISITE DAG VISUALIZER                       -->
+                <!-- ========================================================= -->
+                <section id="dag-tab" class="tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>🌳 Prerequisite Topological DAG Hierarchy</h2>
+                                <p class="section-desc">Course prerequisite dependency graph G = (V, E). Edges represent C_prereq &rarr; C_dependent.</p>
+                            </div>
+                            <div class="dag-legend">
+                                <span class="legend-item"><span class="legend-circle" style="background:#10b981;"></span> Completed</span>
+                                <span class="legend-item"><span class="legend-circle" style="background:#3b82f6;"></span> Enrolled</span>
+                                <span class="legend-item"><span class="legend-circle" style="background:#06b6d4;"></span> Eligible</span>
+                                <span class="legend-item"><span class="legend-circle" style="background:#f59e0b;"></span> Prereq Required</span>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="dag-cycle-alert" class="dag-cycle-alert"></div>
+                            <div class="dag-topo-banner">
+                                <span class="topo-badge">Topological Study Sequence (Kahn's Algorithm):</span>
+                                <div id="dag-topo-order" class="topo-order-pills"></div>
+                            </div>
+                            <div id="dag-container" class="dag-visual-container">
+                                <!-- Populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================= -->
+                <!-- VIEW 5: DEDICATED ADMIN DASHBOARD                         -->
+                <!-- ========================================================= -->
+                <section id="admin-tab" class="tab-content">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <h2>⚙️ Administrator Operations &amp; System Governance</h2>
+                                <p class="section-desc">Manage system users, student records, courses, prerequisite constraints, timetable slots, and institutional audit reports.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <!-- Admin Overview KPIs -->
+                            <div class="admin-kpi-grid">
+                                <div class="kpi-card kpi-filter-card" id="admin-kpi-filter-students" data-risk="ALL">
+                                    <span class="kpi-label">Total Students</span>
+                                    <span class="kpi-value" id="admin-kpi-students">-</span>
+                                    <span class="kpi-sub">Enrolled active pool</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Catalog Courses</span>
+                                    <span class="kpi-value" id="admin-kpi-courses">-</span>
+                                    <span class="kpi-sub">Offering curricula</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">Active Registrations</span>
+                                    <span class="kpi-value" id="admin-kpi-registrations">-</span>
+                                    <span class="kpi-sub">Spring 2026 commits</span>
+                                </div>
+                                <div class="kpi-card kpi-high-risk kpi-filter-card" id="admin-kpi-filter-high" data-risk="HIGH">
+                                    <span class="kpi-label">High Risk Alerts</span>
+                                    <span class="kpi-value risk-high" id="admin-kpi-high-risk">-</span>
+                                    <span class="kpi-sub">Critical monitoring</span>
+                                </div>
+                                <div class="kpi-card">
+                                    <span class="kpi-label">System User Accounts</span>
+                                    <span class="kpi-value" id="admin-kpi-users">-</span>
+                                    <span class="kpi-sub">Active login credentials</span>
+                                </div>
+                            </div>
+
+                            <!-- Admin Subtabs -->
+                            <div class="admin-subtabs">
+                                <button type="button" class="admin-subtab active" data-subtab="admin-subtab-users">👥 User Management</button>
+                                <button type="button" class="admin-subtab" data-subtab="admin-subtab-students">👤 Student Records</button>
+                                <button type="button" class="admin-subtab" data-subtab="admin-subtab-courses">📚 Course Catalog &amp; Prerequisites</button>
+                                <button type="button" class="admin-subtab" data-subtab="admin-subtab-timetable">⏰ Timetable Management</button>
+                                <button type="button" class="admin-subtab" data-subtab="admin-subtab-reports">📊 Institutional Reports</button>
+                            </div>
+
+                            <!-- Subtab 1: User Management -->
+                            <div id="admin-subtab-users" class="admin-subtab-content active">
+                                <div class="admin-section-header">
+                                    <h3>User Accounts &amp; Authentication Credentials</h3>
+                                    <button id="btn-show-add-user" class="btn btn-primary btn-sm" onclick="toggleAddUserBox()">+ Add New User</button>
+                                </div>
+                                <div id="admin-add-user-box" class="admin-form-box hidden">
+                                    <h4>Create New User Account</h4>
+                                    <form id="admin-add-user-form" class="admin-form-grid" onsubmit="handleAdminAddUser(event)">
+                                        <div>
+                                            <label class="form-label">Username:</label>
+                                            <input type="text" id="admin-new-username" class="form-input" placeholder="e.g. faculty01" required>
+                                        </div>
+                                        <div>
+                                            <label class="form-label">Temporary Password:</label>
+                                            <input type="password" id="admin-new-password" class="form-input" placeholder="Enter secure password" required>
+                                        </div>
+                                        <div>
+                                            <label class="form-label">System Role:</label>
+                                            <select id="admin-new-role" class="form-select" required>
+                                                <option value="STUDENT">STUDENT</option>
+                                                <option value="REGISTRAR">REGISTRAR</option>
+                                                <option value="ADVISOR">ADVISOR</option>
+                                                <option value="ADMIN">ADMIN</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="form-label">Linked Student ID (optional):</label>
+                                            <input type="number" id="admin-new-student-id" class="form-input" placeholder="e.g. 1 (only for STUDENT)">
+                                        </div>
+                                        <div style="grid-column: 1 / -1; display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+                                            <button type="button" class="btn btn-secondary" onclick="toggleAddUserBox(false)">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Create User</button>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="table-container">
                                     <table class="data-table">
                                         <thead>
                                             <tr>
-                                                <th>Code</th>
-                                                <th>Course Title</th>
-                                                <th>Credits</th>
-                                                <th>Department</th>
-                                                <th>Action</th>
+                                                <th>ID</th>
+                                                <th>Username</th>
+                                                <th>Role</th>
+                                                <th>Linked Student</th>
+                                                <th>Account Status</th>
+                                                <th>Created Date</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="admin-courses-tbody">
-                                            <!-- Populated dynamically -->
-                                        </tbody>
+                                        <tbody id="admin-users-tbody"></tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div>
-                                <h4 style="margin-bottom: 0.75rem;">Prerequisite DAG Directed Edges</h4>
+
+                            <!-- Subtab 2: Student Records Management -->
+                            <div id="admin-subtab-students" class="admin-subtab-content">
+                                <div class="admin-section-header" style="flex-wrap: wrap; gap: 0.75rem;">
+                                    <div>
+                                        <h3>Enrolled Student Cohort Records</h3>
+                                        <span class="section-desc" id="admin-student-filter-status">Showing: <strong>All Students</strong></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">FILTER BY RISK:</span>
+                                        <div class="risk-filter-group" id="admin-student-risk-filter-group">
+                                            <button type="button" class="btn btn-sm btn-filter-risk active" data-risk="ALL">All</button>
+                                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-high" data-risk="HIGH">🚨 High Risk</button>
+                                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-medium" data-risk="MEDIUM">⚠️ Medium Risk</button>
+                                            <button type="button" class="btn btn-sm btn-filter-risk risk-btn-low" data-risk="LOW">✅ Low Risk</button>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-admin-filter" title="Reset filter" style="display: none;">✕ Clear Filter</button>
+                                    </div>
+                                </div>
                                 <div class="table-container">
                                     <table class="data-table">
                                         <thead>
                                             <tr>
+                                                <th>ID</th>
+                                                <th>Roll Number</th>
+                                                <th>Student Name</th>
+                                                <th>Email</th>
+                                                <th>GPA</th>
+                                                <th>Attendance</th>
+                                                <th>Risk Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-students-tbody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Subtab 3: Course & Prerequisite Management -->
+                            <div id="admin-subtab-courses" class="admin-subtab-content">
+                                <div class="admin-section-header">
+                                    <h3>Curricular Courses &amp; Prerequisite DAG Dependencies</h3>
+                                </div>
+                                <div class="grid-two-columns">
+                                    <div>
+                                        <h4 style="margin-bottom: 0.75rem;">Courses Catalog</h4>
+                                        <div class="table-container">
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Code</th>
+                                                        <th>Course Title</th>
+                                                        <th>Credits</th>
+                                                        <th>Department</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="admin-courses-tbody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 0.75rem;">Prerequisite DAG Directed Edges</h4>
+                                        <div class="table-container">
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Course</th>
+                                                        <th>Requires Prerequisite</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="admin-prereqs-tbody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Subtab 4: Timetable Management -->
+                            <div id="admin-subtab-timetable" class="admin-subtab-content">
+                                <div class="admin-section-header">
+                                    <h3>Timetable Schedule Allocations</h3>
+                                </div>
+                                <div class="table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Slot ID</th>
                                                 <th>Course</th>
-                                                <th>Requires Prerequisite</th>
+                                                <th>Day of Week</th>
+                                                <th>Time Slot</th>
+                                                <th>Room</th>
+                                                <th>Faculty Instructor</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="admin-prereqs-tbody">
-                                            <!-- Populated dynamically -->
-                                        </tbody>
+                                        <tbody id="admin-slots-tbody"></tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Subtab 4: Timetable Management -->
-                    <div id="admin-subtab-timetable" class="admin-subtab-content">
-                        <div class="admin-section-header">
-                            <h3>Timetable Schedule Allocations</h3>
-                        </div>
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Slot ID</th>
-                                        <th>Course</th>
-                                        <th>Day of Week</th>
-                                        <th>Time Slot</th>
-                                        <th>Room</th>
-                                        <th>Faculty Instructor</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-slots-tbody">
-                                    <!-- Populated dynamically -->
-                                </tbody>
-                            </table>
+                            <!-- Subtab 5: Institutional Reports -->
+                            <div id="admin-subtab-reports" class="admin-subtab-content">
+                                <div class="admin-section-header">
+                                    <h3>Comprehensive Institutional Analytics &amp; Audit Reports</h3>
+                                    <button id="btn-refresh-reports" class="btn btn-secondary btn-sm" onclick="loadAdminReports()">🔄 Refresh Data</button>
+                                </div>
+                                <div class="grid-two-columns" style="margin-bottom: 1.5rem;">
+                                    <div class="panel">
+                                        <div class="panel-header">
+                                            <h4>Academic Risk Profile Distribution</h4>
+                                        </div>
+                                        <div class="panel-body" id="admin-report-risk"></div>
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-header">
+                                            <h4>Department Course Coverage</h4>
+                                        </div>
+                                        <div class="panel-body" id="admin-report-dept"></div>
+                                    </div>
+                                </div>
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h4>Active Course Enrollment Density</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-container">
+                                            <table class="data-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Course Code</th>
+                                                        <th>Course Name</th>
+                                                        <th>Department</th>
+                                                        <th>Credits</th>
+                                                        <th>Active Enrolled Students</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="admin-report-courses-tbody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </section>
 
-                    <!-- Subtab 5: Institutional Reports -->
-                    <div id="admin-subtab-reports" class="admin-subtab-content">
-                        <div class="admin-section-header">
-                            <h3>Comprehensive Institutional Analytics & Audit Reports</h3>
-                            <button id="btn-refresh-reports" class="btn btn-secondary btn-sm" onclick="loadAdminReports()">🔄 Refresh Data</button>
-                        </div>
-                        <div class="grid-two-columns" style="margin-bottom: 1.5rem;">
-                            <div class="panel">
-                                <div class="panel-header">
-                                    <h4>Academic Risk Profile Distribution</h4>
-                                </div>
-                                <div class="panel-body" id="admin-report-risk">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                            <div class="panel">
-                                <div class="panel-header">
-                                    <h4> Department Course Coverage</h4>
-                                </div>
-                                <div class="panel-body" id="admin-report-dept">
-                                    <!-- Populated dynamically -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel">
-                            <div class="panel-header">
-                                <h4> Active Course Enrollment Density</h4>
-                            </div>
-                            <div class="panel-body">
-                                <div class="table-container">
-                                    <table class="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Course Code</th>
-                                                <th>Course Name</th>
-                                                <th>Department</th>
-                                                <th>Credits</th>
-                                                <th>Active Enrolled Students</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="admin-report-courses-tbody">
-                                            <!-- Populated dynamically -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Access Denied Card -->
+                <div id="access-denied-view" class="access-denied-card hidden">
+                    <div class="access-denied-icon">🚫</div>
+                    <h2 class="access-denied-title">Access Denied</h2>
+                    <p class="access-denied-msg">You do not have permission to access this page.</p>
+                    <p class="access-denied-detail" id="access-denied-detail"></p>
+                    <button id="btn-return-dashboard" class="btn btn-primary" onclick="returnToDashboard()">Return to My Dashboard</button>
                 </div>
-            </div>
-        </section>
+            </main>
+        </div>
+    </div>
 
-    </main>
+    <!-- ================================================================= -->
+    <!-- MODALS                                                            -->
+    <!-- ================================================================= -->
 
     <!-- Modal for Detailed Course Details / Confirmation -->
     <div id="modal-container" class="modal-overlay hidden">
@@ -808,9 +1545,7 @@
                 <h3 id="modal-title">Registration Confirmation</h3>
                 <button class="modal-close" id="modal-close-btn">&times;</button>
             </div>
-            <div class="modal-body" id="modal-body-content">
-                <!-- Dynamic Content -->
-            </div>
+            <div class="modal-body" id="modal-body-content"></div>
             <div class="modal-footer" id="modal-footer-content">
                 <button class="btn btn-secondary" id="modal-cancel-btn">Cancel</button>
                 <button class="btn btn-primary" id="modal-confirm-btn">Confirm Enrollment</button>
@@ -866,7 +1601,7 @@
         <div class="modal-box" style="max-width: 520px;">
             <div class="modal-header">
                 <div style="display: flex; align-items: center; gap: 0.6rem;">
-                    <span style="font-size: 1.4rem;"></span>
+                    <span style="font-size: 1.4rem;">🔑</span>
                     <div>
                         <h3 id="fp-modal-title" style="margin: 0;">Student Password Recovery</h3>
                         <span id="fp-step-indicator" style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">Step 1 of 4: Identify Student</span>
@@ -875,7 +1610,6 @@
                 <button class="modal-close" onclick="closeForgotPasswordModal()">&times;</button>
             </div>
             <div class="modal-body" style="padding-top: 1.25rem;">
-
                 <!-- STEP 1: Enter Roll Number -->
                 <div id="fp-step-1">
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
@@ -929,7 +1663,7 @@
                             </label>
                         </div>
                         <div style="display: flex; justify-content: space-between; gap: 0.6rem;">
-                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(1)">← Back</button>
+                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(1)">&larr; Back</button>
                             <button type="submit" id="fp-btn-step2-send" class="btn btn-primary">
                                 <span id="fp-btn-step2-text">Send Verification OTP</span>
                                 <span id="fp-btn-step2-spinner" class="spinner hidden"></span>
@@ -943,34 +1677,26 @@
                     <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem; line-height: 1.5;">
                         We sent a 6-digit verification code to <strong id="fp-sent-destination" style="color: #93c5fd;"></strong>.
                     </p>
-
-                    <!-- Demo OTP Hint (for viva / testing) -->
                     <div id="fp-demo-otp-banner" class="hidden" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-sm); padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.85rem; color: #6ee7b7;">
-                         <strong>Viva / Demo Hint:</strong> Simulated dispatch code is <strong id="fp-demo-otp-code" style="font-size: 1.05rem; letter-spacing: 2px; color: #34d399; font-family: monospace;">123456</strong>
+                        <strong>Viva / Demo Hint:</strong> Simulated dispatch code is <strong id="fp-demo-otp-code" style="font-size: 1.05rem; letter-spacing: 2px; color: #34d399; font-family: monospace;">123456</strong>
                     </div>
-
                     <div id="fp-step3-error" class="login-error-banner hidden" style="margin-bottom: 1rem;"></div>
-
                     <form id="fp-form-step3">
                         <div class="form-group" style="margin-bottom: 1rem;">
                             <label class="form-label" for="fp-otp-input">Enter 6-Digit OTP</label>
                             <div class="input-with-icon">
-                                <span class="input-icon"></span>
+                                <span class="input-icon">🔢</span>
                                 <input type="text" id="fp-otp-input" class="form-input" placeholder="Enter 6-digit OTP" maxlength="6" pattern="[0-9]{6}" required autocomplete="one-time-code" style="font-size: 1.25rem; letter-spacing: 4px; font-weight: 700; text-align: center;">
                             </div>
                         </div>
-
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
                             <div style="color: var(--text-muted);">
-                                 Expires in: <strong id="fp-otp-timer" style="color: #f59e0b; font-family: monospace;">05:00</strong>
+                                Expires in: <strong id="fp-otp-timer" style="color: #f59e0b; font-family: monospace;">05:00</strong>
                             </div>
-                            <button type="button" id="fp-btn-resend-otp" class="btn-link" style="font-size: 0.85rem; padding: 0;">
-                                Resend OTP
-                            </button>
+                            <button type="button" id="fp-btn-resend-otp" class="btn-link" style="font-size: 0.85rem; padding: 0;">Resend OTP</button>
                         </div>
-
                         <div style="display: flex; justify-content: space-between; gap: 0.6rem;">
-                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(2)">← Change Channel</button>
+                            <button type="button" class="btn btn-secondary" onclick="fpGoToStep(2)">&larr; Change Channel</button>
                             <button type="submit" id="fp-btn-step3-verify" class="btn btn-primary">
                                 <span id="fp-btn-step3-text">Verify OTP</span>
                                 <span id="fp-btn-step3-spinner" class="spinner hidden"></span>
@@ -994,7 +1720,6 @@
                                 <button type="button" id="btn-toggle-fp-new-pw" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
                             </div>
                         </div>
-
                         <div class="form-group" style="margin-bottom: 1.5rem;">
                             <label class="form-label" for="fp-confirm-password">Confirm New Password</label>
                             <div class="input-with-icon password-input-wrap">
@@ -1003,7 +1728,6 @@
                                 <button type="button" id="btn-toggle-fp-confirm-pw" class="btn-toggle-pw" title="Show or Hide Password">👁️</button>
                             </div>
                         </div>
-
                         <div style="display: flex; justify-content: flex-end; gap: 0.6rem;">
                             <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
                             <button type="submit" id="fp-btn-step4-reset" class="btn btn-primary">
@@ -1026,7 +1750,6 @@
                         Return to Login
                     </button>
                 </div>
-
             </div>
         </div>
     </div>
